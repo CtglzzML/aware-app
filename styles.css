@@ -784,6 +784,24 @@ button:hover {
   text-align: center;
 }
 
+.empty-state-events {
+  display: grid;
+  justify-items: center;
+  gap: 22px;
+  padding: 44px 0 20px;
+}
+
+.empty-state-events p {
+  margin: 0;
+}
+
+.empty-plus-button {
+  width: 52px;
+  min-width: 52px;
+  height: 52px;
+  font-size: 1.55rem;
+}
+
 .danger-text {
   color: var(--danger);
 }

@@ -1101,7 +1101,13 @@ function renderEvents() {
   eventCount.textContent = t.itemCount(state.events.length);
 
   if (!state.events.length) {
-    eventList.innerHTML = `<div class="empty-state">${escapeHtml(t.noEvents)}</div>`;
+    eventList.innerHTML = `
+      <div class="empty-state empty-state-events">
+        <p>${escapeHtml(t.noEvents)}</p>
+        <button class="accent-plus-button empty-plus-button" id="empty-create-event-button" type="button" aria-label="${escapeHtml(t.createEventLabel)}">+</button>
+      </div>
+    `;
+    eventList.querySelector("#empty-create-event-button")?.addEventListener("click", () => showScreen("screen-create-event"));
     return;
   }
 
