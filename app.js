@@ -107,6 +107,7 @@ const translations = {
     fieldEventNamePlaceholder: "Ibiza weekend, concert night...",
     fieldType: "Type",
     fieldBudget: "Budget",
+    fieldCurrency: "Currency",
     fieldBudgetPlaceholder: "500",
     fieldExpenseType: "Type of expense",
     fieldAmount: "Amount",
@@ -211,6 +212,7 @@ const translations = {
     fieldEventNamePlaceholder: "Fin de semana en Ibiza, concierto...",
     fieldType: "Tipo",
     fieldBudget: "Presupuesto",
+    fieldCurrency: "Moneda",
     fieldBudgetPlaceholder: "500",
     fieldExpenseType: "Tipo de gasto",
     fieldAmount: "Importe",
@@ -315,6 +317,7 @@ const translations = {
     fieldEventNamePlaceholder: "Week-end a Ibiza, concert...",
     fieldType: "Type",
     fieldBudget: "Budget",
+    fieldCurrency: "Devise",
     fieldBudgetPlaceholder: "500",
     fieldExpenseType: "Type de depense",
     fieldAmount: "Montant",
@@ -405,6 +408,7 @@ const translations = {
     fieldEventNamePlaceholder: "Ibiza Wochenende, Konzertnacht...",
     fieldType: "Typ",
     fieldBudget: "Budget",
+    fieldCurrency: "Wahrung",
     fieldBudgetPlaceholder: "500",
     fieldExpenseType: "Ausgabeart",
     fieldAmount: "Betrag",
@@ -495,6 +499,7 @@ const translations = {
     fieldEventNamePlaceholder: "Weekend a Ibiza, concerto...",
     fieldType: "Tipo",
     fieldBudget: "Budget",
+    fieldCurrency: "Valuta",
     fieldBudgetPlaceholder: "500",
     fieldExpenseType: "Tipo di spesa",
     fieldAmount: "Importo",
@@ -585,6 +590,7 @@ const translations = {
     fieldEventNamePlaceholder: "Fim de semana em Ibiza, concerto...",
     fieldType: "Tipo",
     fieldBudget: "Orcamento",
+    fieldCurrency: "Moeda",
     fieldBudgetPlaceholder: "500",
     fieldExpenseType: "Tipo de gasto",
     fieldAmount: "Valor",
@@ -849,7 +855,16 @@ function loadState() {
         ? [parsed.currentEventId]
         : [];
     return {
-      events: Array.isArray(parsed.events) ? parsed.events : [],
+      events: Array.isArray(parsed.events)
+        ? parsed.events.map((event) => ({
+            ...event,
+            currency:
+              typeof event.currency === "string" &&
+              availableCurrencies.some((currency) => currency.code === event.currency)
+                ? event.currency
+                : "USD",
+          }))
+        : [],
       currentEventIds
     };
   } catch {
@@ -890,6 +905,7 @@ function handleCreateEvent(event) {
     name,
     type: formData.get("type").toString(),
     budget: Number(formData.get("budget")) || 0,
+    currency: formData.get("currency").toString() || currentCurrency,
     expenses: [],
     createdAt: Date.now(),
   };
@@ -1011,14 +1027,14 @@ function renderEvents() {
             <h3 class="event-card-name">${escapeHtml(event.name)}</h3>
             ${state.currentEventIds.includes(event.id) ? '<span class="status-chip">Current</span>' : ""}
           </div>
-          <strong class="event-card-total">${formatCurrency(spent)}</strong>
+          <strong class="event-card-total">${formatCurrency(spent, event.currency)}</strong>
         </div>
         ${
           budget > 0
             ? `
               <div class="budget-progress">
                 <div class="budget-progress-meta">
-                  <span>${escapeHtml(t.ofBudget(Math.round(progressPercent), formatCurrency(budget)))}</span>
+                  <span>${escapeHtml(t.ofBudget(Math.round(progressPercent), formatCurrency(budget, event.currency)))}</span>
                   <span>${escapeHtml(isOverBudget ? t.overBudget : t.budgetInControl)}</span>
                 </div>
                 <div class="budget-progress-track">
@@ -1068,9 +1084,9 @@ function renderDetail() {
 
   detailType.textContent = translateCategory(selectedEvent.type);
   detailName.textContent = selectedEvent.name;
-  detailTotal.textContent = formatCurrency(sumExpenses(selectedEvent));
+  detailTotal.textContent = formatCurrency(sumExpenses(selectedEvent), selectedEvent.currency);
   detailBudget.textContent = selectedEvent.budget
-    ? formatCurrency(selectedEvent.budget)
+    ? formatCurrency(selectedEvent.budget, selectedEvent.currency)
     : t.noBudget;
   detailBudget.classList.toggle(
     "danger-text",
@@ -1089,10 +1105,10 @@ function renderDetail() {
       (expense) => `
         <div class="expense-row">
           <div>
-            <strong>${escapeHtml(expense.title)}</strong>
+            <strong>${escapeHtml(expense.title || translateCategory(expense.category))}</strong>
             <span class="expense-meta">${escapeHtml(translateCategory(expense.category))}</span>
           </div>
-          <div class="expense-price">${formatCurrency(expense.amount)}</div>
+          <div class="expense-price">${formatCurrency(expense.amount, selectedEvent.currency)}</div>
         </div>
       `
     )
@@ -1214,10 +1230,10 @@ function sumExpenses(event) {
   return event.expenses.reduce((sum, expense) => sum + Number(expense.amount || 0), 0);
 }
 
-function formatCurrency(value) {
+function formatCurrency(value, currencyOverride = currentCurrency) {
   return new Intl.NumberFormat(currentLocale, {
     style: "currency",
-    currency: currentCurrency,
+    currency: currencyOverride || currentCurrency,
     maximumFractionDigits: 0,
   }).format(value || 0);
 }
@@ -1392,12 +1408,12 @@ function handleParseVoice() {
 
   const parsed = parseExpenseFromTranscript(transcript);
   selectedEventId = currentEvent.id;
-  expenseForm.elements.title.value = parsed.title || "";
+  expenseForm.elements.title.value = "";
   expenseForm.elements.amount.value = parsed.amount ? String(parsed.amount) : "";
   expenseForm.elements.category.value = parsed.category;
 
   voiceFeedback.textContent = parsed.amount
-    ? `Ready to save in ${translateCategory(parsed.category)} for ${formatCurrency(parsed.amount)}.`
+    ? `Ready to save in ${translateCategory(parsed.category)} for ${formatCurrency(parsed.amount, currentEvent.currency)}.`
     : "I detected the expense. Add the amount if I missed it.";
 }
 
@@ -1565,8 +1581,13 @@ function updateFormTranslations(t) {
   eventLabels[0].textContent = t.fieldEventName;
   eventLabels[1].textContent = t.fieldType;
   eventLabels[2].textContent = t.fieldBudget;
+  eventLabels[3].textContent = t.fieldCurrency;
   eventForm.elements.name.placeholder = t.fieldEventNamePlaceholder;
   eventForm.elements.budget.placeholder = t.fieldBudgetPlaceholder;
+  eventForm.elements.currency.innerHTML = availableCurrencies
+    .map((currency) => `<option value="${currency.code}">${currency.label}</option>`)
+    .join("");
+  eventForm.elements.currency.value = currentCurrency;
 
   const expenseLabels = document.querySelectorAll("#expense-form label span");
   expenseLabels[0].textContent = t.fieldExpenseType;

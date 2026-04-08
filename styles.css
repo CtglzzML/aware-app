@@ -76,7 +76,7 @@ textarea {
 }
 
 .landing-screen {
-  min-height: calc(100vh - 32px);
+  min-height: calc(100dvh - 32px);
   border: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
@@ -93,7 +93,7 @@ textarea {
   text-align: center;
   max-width: 560px;
   width: 100%;
-  min-height: calc(100vh - 32px - 52px);
+  min-height: calc(100dvh - 32px - 52px);
   display: grid;
   grid-template-rows: 1fr auto;
   justify-items: center;
@@ -114,7 +114,8 @@ textarea {
   justify-items: center;
   align-self: end;
   gap: 18px;
-  padding-bottom: clamp(4px, 2vh, 18px);
+  margin-top: auto;
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
 }
 
 .brand-lockup {
@@ -711,14 +712,14 @@ button:hover {
 
 @media (max-width: 520px) {
   .landing-screen {
-    min-height: calc(100vh - 32px);
+    min-height: calc(100dvh - 32px);
     padding: 20px 20px 24px;
   }
 
   .landing-copy {
     max-width: 100%;
     padding-top: 80px;
-    min-height: calc(100vh - 32px - 44px);
+    min-height: calc(100dvh - 32px - 44px);
   }
 
   .landing-copy h1 {
