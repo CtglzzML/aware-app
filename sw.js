@@ -1,4 +1,4 @@
-const CACHE_NAME = "spendscape-cache-v1";
+const CACHE_NAME = "aware-cache-v2";
 const APP_ASSETS = [
   "./",
   "./index.html",
