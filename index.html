@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111315" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="aware" />
+    <title>aware</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./icons/icon-192.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <section class="screen screen-active landing-screen" id="screen-landing">
+        <div class="brand-lockup">
+          <button class="brand-button" id="landing-brand-button" type="button" aria-label="aware">
+            <span class="eyebrow brand-label">aware</span>
+          </button>
+        </div>
+        <div class="landing-copy">
+          <h1 id="landing-quote">At least you know how much cost that weekend</h1>
+          <div class="landing-actions">
+            <button class="primary-button" id="start-button" type="button">CREATE event</button>
+            <button class="ghost-button" id="go-events-button" type="button">Go to my events</button>
+            <button class="ghost-button" id="go-dashboard-button" type="button">Dashboard</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen app-screen" id="screen-dashboard">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow brand-label">aware</p>
+            <h2>Dashboard</h2>
+          </div>
+          <div class="topbar-actions">
+            <button class="ghost-button compact-button" id="dashboard-home-button" type="button">Home</button>
+            <button class="ghost-button compact-button" id="dashboard-events-button" type="button">Events</button>
+          </div>
+        </header>
+
+        <section class="panel">
+          <div class="section-row">
+            <p class="mono-label">Overview</p>
+            <span class="subtle-text" id="dashboard-range-label">Last 5 events</span>
+          </div>
+          <div class="current-event-banner" id="dashboard-current-event-banner">
+            <span class="mono-label">Current event</span>
+            <strong id="dashboard-current-event-name">None selected</strong>
+          </div>
+          <div class="dashboard-grid">
+            <div class="summary-card">
+              <span>Total spent</span>
+              <strong id="dashboard-total-spent">$0</strong>
+            </div>
+            <div class="summary-card">
+              <span>Average event</span>
+              <strong id="dashboard-average-spent">$0</strong>
+            </div>
+            <div class="summary-card">
+              <span>Biggest category</span>
+              <strong id="dashboard-top-category">None</strong>
+            </div>
+            <div class="summary-card">
+              <span>Tracked events</span>
+              <strong id="dashboard-event-count">0</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-row">
+            <p class="mono-label">Category spend</p>
+            <span class="subtle-text">Last 5 events</span>
+          </div>
+          <div id="dashboard-chart" class="chart-list"></div>
+        </section>
+
+        <section class="panel">
+          <div class="section-row analysis-row">
+            <p class="mono-label">aware analysis</p>
+          </div>
+          <div class="insight-card">
+            <p class="insight-eyebrow" id="dashboard-insight-title">No drama yet</p>
+            <p class="insight-text" id="dashboard-insight-text">
+              Add a few expenses and I will gently judge your priorities.
+            </p>
+          </div>
+        </section>
+
+        <section class="settings-dock">
+          <label class="language-switcher" aria-label="Language">
+            <span class="language-icon state-icon" id="language-state-icon" aria-hidden="true">EN</span>
+            <select id="language-select" aria-label="Language"></select>
+          </label>
+          <label class="language-switcher" aria-label="Currency">
+            <span class="language-icon state-icon" id="currency-state-icon" aria-hidden="true">$</span>
+            <select id="currency-select" aria-label="Currency"></select>
+          </label>
+        </section>
+      </section>
+
+      <section class="screen app-screen" id="screen-events">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow brand-label">aware</p>
+            <h2>Your events</h2>
+          </div>
+          <div class="topbar-actions">
+            <button class="ghost-button compact-button" id="go-landing-button" type="button">Home</button>
+            <button class="ghost-button compact-button" id="go-dashboard-from-events-button" type="button">
+              Dashboard
+            </button>
+            <button class="ghost-button compact-button" id="go-create-button" type="button">New</button>
+          </div>
+        </header>
+
+        <section class="panel">
+          <div class="section-row">
+            <p class="mono-label">Saved events</p>
+            <span class="subtle-text" id="event-count">0 items</span>
+          </div>
+          <div id="event-list" class="event-list"></div>
+        </section>
+      </section>
+
+      <section class="screen app-screen" id="screen-create-event">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow brand-label">aware</p>
+            <h2>Create event</h2>
+          </div>
+          <div class="topbar-actions">
+            <button class="ghost-button compact-button" data-back="screen-events" type="button">Back</button>
+          </div>
+        </header>
+
+        <section class="panel">
+          <form id="event-form" class="stack-form">
+            <label>
+              <span>Event name</span>
+              <input type="text" name="name" placeholder="Ibiza weekend, concert night..." required />
+            </label>
+
+            <label>
+              <span>Type</span>
+              <select name="type">
+                <option value="travel">Travel</option>
+                <option value="party">Party / Night out</option>
+                <option value="event">Event</option>
+                <option value="activity">Activity</option>
+                <option value="casual">Casual plan</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+
+            <label>
+              <span>Budget</span>
+              <input type="number" name="budget" min="0" step="0.01" placeholder="500" />
+            </label>
+
+            <button class="primary-button" id="create-event-submit-button" type="submit">Create event</button>
+          </form>
+        </section>
+      </section>
+
+      <section class="screen app-screen" id="screen-event-detail">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow brand-label">aware</p>
+            <h2>Event</h2>
+          </div>
+          <div class="topbar-actions">
+            <button class="ghost-button compact-button" data-back="screen-events" type="button">Back</button>
+          </div>
+        </header>
+
+        <section class="panel">
+          <div class="detail-header">
+            <div>
+              <p class="mono-label" id="detail-type"></p>
+              <h3 id="detail-name">No event selected</h3>
+            </div>
+            <button class="icon-button compact-button" id="delete-event-button" type="button">Delete</button>
+          </div>
+
+          <div class="summary-grid">
+            <div class="summary-card">
+              <span>Total</span>
+              <strong id="detail-total">$0</strong>
+            </div>
+            <div class="summary-card">
+              <span>Budget</span>
+              <strong id="detail-budget">$0</strong>
+            </div>
+          </div>
+
+          <div class="action-row">
+            <button class="ghost-button compact-button" id="set-current-event-button" type="button">
+              Set as current
+            </button>
+            <button class="primary-button compact-button" id="go-voice-expense-button" type="button">
+              Add by voice
+            </button>
+          </div>
+
+          <div class="section-row">
+            <p class="mono-label">Expenses</p>
+            <button class="primary-button compact-pill" id="go-add-expense-button" type="button">
+              + Record expense
+            </button>
+          </div>
+
+          <div id="expense-list" class="expense-list"></div>
+        </section>
+      </section>
+
+      <section class="screen app-screen" id="screen-add-expense">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow brand-label">aware</p>
+            <h2>Add expense</h2>
+          </div>
+          <div class="topbar-actions">
+            <button class="ghost-button compact-button" data-back="screen-event-detail" type="button">Back</button>
+          </div>
+        </header>
+
+        <section class="panel">
+          <div class="voice-panel">
+            <div class="section-row voice-row">
+              <div>
+                <p class="mono-label">Voice note</p>
+                <p class="subtle-text" id="voice-current-event-label">Current event: none</p>
+              </div>
+              <button class="ghost-button compact-button" id="toggle-voice-button" type="button">
+                Start voice
+              </button>
+            </div>
+
+            <label>
+              <span>Transcript</span>
+              <textarea
+                id="voice-transcript"
+                rows="3"
+                placeholder="I bought a protein bar for 3 euros"
+              ></textarea>
+            </label>
+
+            <div class="voice-actions">
+              <button class="ghost-button compact-button" id="parse-voice-button" type="button">
+                Parse voice note
+              </button>
+              <button class="ghost-button compact-button" id="use-current-event-button" type="button">
+                Use current event
+              </button>
+            </div>
+
+            <p class="subtle-text voice-feedback" id="voice-feedback">
+              Speak naturally and I'll try to detect the title, amount, and category.
+            </p>
+          </div>
+
+          <form id="expense-form" class="stack-form">
+            <label>
+              <span>Type of expense</span>
+              <select name="category">
+                <option value="food">Food</option>
+                <option value="travel">Travel</option>
+                <option value="other">Others</option>
+              </select>
+            </label>
+
+            <label>
+              <span>Amount</span>
+              <input type="number" name="amount" min="0" step="0.01" placeholder="40" required />
+            </label>
+
+            <label>
+              <span>Note</span>
+              <input type="text" name="title" placeholder="Dinner, taxi, snacks..." required />
+            </label>
+
+            <button class="primary-button" id="save-expense-submit-button" type="submit">Save expense</button>
+          </form>
+        </section>
+      </section>
+    </div>
+
+    <template id="event-card-template">
+      <button class="event-card" type="button">
+        <div>
+          <p class="mono-label event-card-type"></p>
+          <h3 class="event-card-name"></h3>
+        </div>
+        <strong class="event-card-total"></strong>
+      </button>
+    </template>
+
+    <script type="module" src="./app.js?v=12"></script>
+  </body>
+</html>
