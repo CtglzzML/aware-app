@@ -52,10 +52,34 @@ const dashboardInsightTitle = document.querySelector("#dashboard-insight-title")
 const dashboardInsightText = document.querySelector("#dashboard-insight-text");
 const screens = [...document.querySelectorAll(".screen")];
 const landingQuote = document.querySelector("#landing-quote");
+const onboardingStepLabel = document.querySelector("#onboarding-step-label");
+const onboardingTitle = document.querySelector("#onboarding-title");
+const onboardingText = document.querySelector("#onboarding-text");
+const onboardingLanguageSelect = document.querySelector("#onboarding-language-select");
+const onboardingCurrencySelect = document.querySelector("#onboarding-currency-select");
+const onboardingAccentOptions = document.querySelector("#onboarding-accent-options");
+const onboardingLanguageLabel = document.querySelector("#onboarding-language-label");
+const onboardingCurrencyLabel = document.querySelector("#onboarding-currency-label");
+const onboardingAccentLabel = document.querySelector("#onboarding-accent-label");
+const onboardingLanguageHelper = document.querySelector("#onboarding-language-helper");
+const onboardingCurrencyHelper = document.querySelector("#onboarding-currency-helper");
+const onboardingAccentHelper = document.querySelector("#onboarding-accent-helper");
+const onboardingPreviewLabel = document.querySelector("#onboarding-preview-label");
+const onboardingPreviewLanguageText = document.querySelector("#onboarding-preview-language-text");
+const onboardingPreviewCurrencyText = document.querySelector("#onboarding-preview-currency-text");
+const onboardingPreviewAccentText = document.querySelector("#onboarding-preview-accent-text");
+const onboardingPreviewLanguageValue = document.querySelector("#onboarding-preview-language-value");
+const onboardingPreviewCurrencyValue = document.querySelector("#onboarding-preview-currency-value");
+const onboardingPreviewAccentValue = document.querySelector("#onboarding-preview-accent-value");
+const onboardingBackButton = document.querySelector("#onboarding-back-button");
+const onboardingNextButton = document.querySelector("#onboarding-next-button");
+const onboardingPanels = [...document.querySelectorAll(".onboarding-panel")];
+const onboardingProgressDots = [...document.querySelectorAll(".onboarding-progress-dot")];
 
 const LOCALE_KEY = "aware-locale-v1";
 const CURRENCY_KEY = "aware-currency-v1";
 const ACCENT_KEY = "aware-accent-v1";
+const ONBOARDING_KEY = "aware-onboarding-v1";
 
 const availableLocales = [
   { code: "en", label: "English", icon: "EN" },
@@ -93,7 +117,7 @@ const translations = {
     landingCtaCreate: "Add expense",
     landingCtaEvents: "Go to my events",
     landingCtaDashboard: "Dashboard",
-    landingFooter: "Made with love by Carlito's Way",
+    landingFooter: "Made with love in Schultz' Lab",
     quoteLab: "Quote lab",
     quoteSuggestionTitle: "Think you can outwrite us?",
     quoteSuggestionBody: "Drop a line. If it actually hits, we might let it into the rotation.",
@@ -206,7 +230,7 @@ const translations = {
     landingCtaCreate: "Anadir gasto",
     landingCtaEvents: "Ir a mis eventos",
     landingCtaDashboard: "Panel",
-    landingFooter: "Hecho con amor por Carlito's Way",
+    landingFooter: "Made with love in Schultz' Lab",
     quoteLab: "Laboratorio de frases",
     quoteSuggestionTitle: "¿Crees que escribes mejor que nosotros?",
     quoteSuggestionBody: "Deja tu frase. Si de verdad tiene nivel, igual entra en la rotacion.",
@@ -319,7 +343,7 @@ const translations = {
     landingCtaCreate: "Ajouter depense",
     landingCtaEvents: "Mes events",
     landingCtaDashboard: "Tableau",
-    landingFooter: "Fait avec amour par Carlito's Way",
+    landingFooter: "Made with love in Schultz' Lab",
     quoteLab: "Laboratoire de phrases",
     quoteSuggestionTitle: "Tu penses ecrire mieux que nous ?",
     quoteSuggestionBody: "Laisse ta phrase. Si elle frappe vraiment, on la fera peut-etre entrer dans la rotation.",
@@ -418,7 +442,7 @@ const translations = {
     landingCtaCreate: "Ausgabe hinzufugen",
     landingCtaEvents: "Zu meinen Events",
     landingCtaDashboard: "Ubersicht",
-    landingFooter: "Mit Liebe gemacht von Carlito's Way",
+    landingFooter: "Made with love in Schultz' Lab",
     quoteLab: "Zitatlabor",
     quoteSuggestionTitle: "Denkst du, du schreibst besser als wir?",
     quoteSuggestionBody: "Lass einen Spruch da. Wenn er wirklich trifft, kommt er vielleicht in die Rotation.",
@@ -517,7 +541,7 @@ const translations = {
     landingCtaCreate: "Aggiungi spesa",
     landingCtaEvents: "Vai ai miei eventi",
     landingCtaDashboard: "Panoramica",
-    landingFooter: "Fatto con amore da Carlito's Way",
+    landingFooter: "Made with love in Schultz' Lab",
     quoteLab: "Laboratorio frasi",
     quoteSuggestionTitle: "Pensi di scrivere meglio di noi?",
     quoteSuggestionBody: "Lascia una frase. Se spacca davvero, potremmo metterla in rotazione.",
@@ -616,7 +640,7 @@ const translations = {
     landingCtaCreate: "Adicionar gasto",
     landingCtaEvents: "Ir para meus eventos",
     landingCtaDashboard: "Painel",
-    landingFooter: "Feito com amor por Carlito's Way",
+    landingFooter: "Made with love in Schultz' Lab",
     quoteLab: "Laboratorio de frases",
     quoteSuggestionTitle: "Achas que escreves melhor do que nos?",
     quoteSuggestionBody: "Deixa uma frase. Se realmente bater, talvez entre na rotacao.",
@@ -710,6 +734,261 @@ const translations = {
       "A ressaca passa. Os recibos nao."
     ]
   }
+};
+
+const accentTranslations = {
+  en: {
+    red: "Red",
+    orange: "Orange",
+    yellow: "Yellow",
+    green: "Green",
+    blue: "Blue",
+    indigo: "Indigo",
+    violet: "Violet"
+  },
+  es: {
+    red: "Rojo",
+    orange: "Naranja",
+    yellow: "Amarillo",
+    green: "Verde",
+    blue: "Azul",
+    indigo: "Indigo",
+    violet: "Violeta"
+  },
+  fr: {
+    red: "Rouge",
+    orange: "Orange",
+    yellow: "Jaune",
+    green: "Vert",
+    blue: "Bleu",
+    indigo: "Indigo",
+    violet: "Violet"
+  },
+  de: {
+    red: "Rot",
+    orange: "Orange",
+    yellow: "Gelb",
+    green: "Grun",
+    blue: "Blau",
+    indigo: "Indigo",
+    violet: "Violett"
+  },
+  it: {
+    red: "Rosso",
+    orange: "Arancione",
+    yellow: "Giallo",
+    green: "Verde",
+    blue: "Blu",
+    indigo: "Indaco",
+    violet: "Viola"
+  },
+  pt: {
+    red: "Vermelho",
+    orange: "Laranja",
+    yellow: "Amarelo",
+    green: "Verde",
+    blue: "Azul",
+    indigo: "Indigo",
+    violet: "Violeta"
+  }
+};
+
+const onboardingTranslations = {
+  en: {
+    stepLabel: (step, total) => `First run · ${step}/${total}`,
+    labels: {
+      language: "Language",
+      currency: "Currency",
+      accent: "Accent",
+      summary: "Current setup"
+    },
+    actions: {
+      back: "Back",
+      next: "Continue",
+      finish: "Enter aware"
+    },
+    steps: [
+      {
+        title: "Choose your language",
+        body: "This becomes the app language and the default voice language.",
+        helper: "You can change it later from settings."
+      },
+      {
+        title: "Pick your currency",
+        body: "Budgets, totals, and dashboard numbers will start from here.",
+        helper: "Each event can still keep its own currency."
+      },
+      {
+        title: "Choose the vibe",
+        body: "Pick the accent color that should greet you first every time aware opens.",
+        helper: "You can still tap aware on the landing page to cycle colors later."
+      }
+    ]
+  },
+  es: {
+    stepLabel: (step, total) => `Primera vez · ${step}/${total}`,
+    labels: {
+      language: "Idioma",
+      currency: "Moneda",
+      accent: "Color",
+      summary: "Configuracion actual"
+    },
+    actions: {
+      back: "Volver",
+      next: "Seguir",
+      finish: "Entrar en aware"
+    },
+    steps: [
+      {
+        title: "Elige tu idioma",
+        body: "Esto marca el idioma de la app y tambien el idioma base de voz.",
+        helper: "Luego lo puedes cambiar desde ajustes."
+      },
+      {
+        title: "Elige tu moneda",
+        body: "Presupuestos, totales y panel empezaran a leerse desde aqui.",
+        helper: "Cada evento puede seguir teniendo su propia moneda."
+      },
+      {
+        title: "Elige el vibe",
+        body: "Escoge el color con el que quieres que aware te reciba al abrirse.",
+        helper: "Despues podras tocar aware en la landing para ir cambiandolo."
+      }
+    ]
+  },
+  fr: {
+    stepLabel: (step, total) => `Premier passage · ${step}/${total}`,
+    labels: {
+      language: "Langue",
+      currency: "Devise",
+      accent: "Accent",
+      summary: "Configuration actuelle"
+    },
+    actions: {
+      back: "Retour",
+      next: "Continuer",
+      finish: "Entrer dans aware"
+    },
+    steps: [
+      {
+        title: "Choisis ta langue",
+        body: "Elle devient la langue de l'app et la langue par defaut pour la voix.",
+        helper: "Tu pourras la changer plus tard dans les reglages."
+      },
+      {
+        title: "Choisis ta devise",
+        body: "Budgets, totaux et tableau de bord partiront de ce choix.",
+        helper: "Chaque event peut toujours garder sa propre devise."
+      },
+      {
+        title: "Choisis l'ambiance",
+        body: "Selectionne la couleur qui doit t'accueillir a chaque ouverture d'aware.",
+        helper: "Tu pourras ensuite toucher aware sur la landing pour changer la couleur."
+      }
+    ]
+  },
+  de: {
+    stepLabel: (step, total) => `Erster Start · ${step}/${total}`,
+    labels: {
+      language: "Sprache",
+      currency: "Wahrung",
+      accent: "Akzent",
+      summary: "Aktuelles Setup"
+    },
+    actions: {
+      back: "Zuruck",
+      next: "Weiter",
+      finish: "aware offnen"
+    },
+    steps: [
+      {
+        title: "Wahle deine Sprache",
+        body: "Sie wird zur App-Sprache und auch zur Standardstimme.",
+        helper: "Du kannst das spater in den Einstellungen andern."
+      },
+      {
+        title: "Wahle deine Wahrung",
+        body: "Budgets, Summen und Dashboard starten mit dieser Basis.",
+        helper: "Jedes Event kann trotzdem seine eigene Wahrung behalten."
+      },
+      {
+        title: "Wahle den Vibe",
+        body: "Such dir die Akzentfarbe aus, die aware beim Offnen zuerst zeigen soll.",
+        helper: "Spater kannst du auf der Landing weiter auf aware tippen und Farben wechseln."
+      }
+    ]
+  },
+  it: {
+    stepLabel: (step, total) => `Primo avvio · ${step}/${total}`,
+    labels: {
+      language: "Lingua",
+      currency: "Valuta",
+      accent: "Accento",
+      summary: "Configurazione attuale"
+    },
+    actions: {
+      back: "Indietro",
+      next: "Continua",
+      finish: "Entra in aware"
+    },
+    steps: [
+      {
+        title: "Scegli la tua lingua",
+        body: "Diventa la lingua dell'app e anche la lingua base per la voce.",
+        helper: "Potrai cambiarla piu tardi dalle impostazioni."
+      },
+      {
+        title: "Scegli la tua valuta",
+        body: "Budget, totali e dashboard partiranno da questa scelta.",
+        helper: "Ogni evento potra comunque tenere la sua valuta."
+      },
+      {
+        title: "Scegli il vibe",
+        body: "Seleziona il colore che vuoi vedere per primo ogni volta che aware si apre.",
+        helper: "Poi potrai toccare aware nella landing per cambiare colore quando vuoi."
+      }
+    ]
+  },
+  pt: {
+    stepLabel: (step, total) => `Primeira vez · ${step}/${total}`,
+    labels: {
+      language: "Idioma",
+      currency: "Moeda",
+      accent: "Cor",
+      summary: "Configuracao atual"
+    },
+    actions: {
+      back: "Voltar",
+      next: "Continuar",
+      finish: "Entrar no aware"
+    },
+    steps: [
+      {
+        title: "Escolhe o teu idioma",
+        body: "Isto define o idioma da app e tambem o idioma base da voz.",
+        helper: "Podes mudar depois nas definicoes."
+      },
+      {
+        title: "Escolhe a tua moeda",
+        body: "Orcamentos, totais e painel vao arrancar a partir daqui.",
+        helper: "Cada evento pode continuar a ter a sua propria moeda."
+      },
+      {
+        title: "Escolhe a vibe",
+        body: "Escolhe a cor com que queres que o aware te receba ao abrir.",
+        helper: "Depois podes tocar em aware na landing para ir trocando a cor."
+      }
+    ]
+  }
+};
+
+const recognitionLocales = {
+  en: "en-US",
+  es: "es-ES",
+  fr: "fr-FR",
+  de: "de-DE",
+  it: "it-IT",
+  pt: "pt-PT"
 };
 
 const sarcasticInsights = {
@@ -852,7 +1131,8 @@ const sarcasticInsights = {
 };
 
 let state = loadState();
-let currentScreenId = "screen-landing";
+let hasCompletedOnboarding = loadOnboardingState();
+let currentScreenId = hasCompletedOnboarding ? "screen-landing" : "screen-onboarding";
 let selectedEventId = state.events[0]?.id ?? null;
 let currentQuoteIndex = -1;
 let quoteTypingFrame = null;
@@ -862,6 +1142,7 @@ let currentCurrency = loadCurrency();
 let currentAccent = loadAccent();
 let speechRecognition = null;
 let isListening = false;
+let onboardingStepIndex = 0;
 
 startButton.addEventListener("click", handlePrimaryAction);
 goEventsButton.addEventListener("click", () => showScreen("screen-events"));
@@ -891,6 +1172,10 @@ deleteEventButton.addEventListener("click", handleDeleteEvent);
 quoteSuggestionForm?.addEventListener("submit", handleQuoteSuggestion);
 quoteSuggestionClose?.addEventListener("click", closeQuoteSuggestionModal);
 dashboardInsightCard?.addEventListener("click", openQuoteSuggestionModal);
+onboardingLanguageSelect?.addEventListener("change", handleOnboardingLocaleChange);
+onboardingCurrencySelect?.addEventListener("change", handleOnboardingCurrencyChange);
+onboardingBackButton?.addEventListener("click", handleOnboardingBack);
+onboardingNextButton?.addEventListener("click", handleOnboardingNext);
 
 setupPwa();
 setupLanguageSelector();
@@ -944,8 +1229,56 @@ function loadAccent() {
   return availableAccents.some((accent) => accent.code === saved) ? saved : "green";
 }
 
+function loadOnboardingState() {
+  return readStorage(ONBOARDING_KEY) === "done";
+}
+
 function saveState() {
   writeStorage(STORAGE_KEY, JSON.stringify(state));
+}
+
+function setLocale(localeCode, { persist = true } = {}) {
+  if (!availableLocales.some((locale) => locale.code === localeCode)) {
+    return;
+  }
+
+  currentLocale = localeCode;
+
+  if (persist) {
+    writeStorage(LOCALE_KEY, currentLocale);
+  }
+
+  currentQuoteIndex = -1;
+  setLandingQuote();
+  updateStateIcons();
+}
+
+function setCurrency(currencyCode, { persist = true } = {}) {
+  if (!availableCurrencies.some((currency) => currency.code === currencyCode)) {
+    return;
+  }
+
+  currentCurrency = currencyCode;
+
+  if (persist) {
+    writeStorage(CURRENCY_KEY, currentCurrency);
+  }
+
+  updateStateIcons();
+}
+
+function setAccent(accentCode, { persist = true } = {}) {
+  if (!availableAccents.some((accent) => accent.code === accentCode)) {
+    return;
+  }
+
+  currentAccent = accentCode;
+
+  if (persist) {
+    writeStorage(ACCENT_KEY, currentAccent);
+  }
+
+  applyAccentTheme();
 }
 
 function handleCreateEvent(event) {
@@ -1079,12 +1412,13 @@ function handleDeleteEvent() {
 }
 
 function showScreen(screenId) {
-  currentScreenId = screenId;
+  currentScreenId = !hasCompletedOnboarding && screenId !== "screen-onboarding" ? "screen-onboarding" : screenId;
   render();
 }
 
 function render() {
   renderTranslations();
+  renderOnboarding();
 
   for (const screen of screens) {
     screen.classList.toggle("screen-active", screen.id === currentScreenId);
@@ -1094,6 +1428,89 @@ function render() {
   renderDetail();
   renderDashboard();
   renderVoicePanel();
+}
+
+function renderOnboarding() {
+  if (!onboardingTitle || !onboardingText || !onboardingNextButton) {
+    return;
+  }
+
+  const copy = getOnboardingCopy();
+  const steps = copy.steps;
+  const currentStep = steps[onboardingStepIndex] ?? steps[0];
+
+  onboardingStepLabel.textContent = copy.stepLabel(onboardingStepIndex + 1, steps.length);
+  onboardingTitle.textContent = currentStep.title;
+  onboardingText.textContent = currentStep.body;
+
+  onboardingLanguageLabel.textContent = copy.labels.language;
+  onboardingCurrencyLabel.textContent = copy.labels.currency;
+  onboardingAccentLabel.textContent = copy.labels.accent;
+  onboardingLanguageHelper.textContent = steps[0].helper;
+  onboardingCurrencyHelper.textContent = steps[1].helper;
+  onboardingAccentHelper.textContent = steps[2].helper;
+  onboardingPreviewLabel.textContent = copy.labels.summary;
+  onboardingPreviewLanguageText.textContent = copy.labels.language;
+  onboardingPreviewCurrencyText.textContent = copy.labels.currency;
+  onboardingPreviewAccentText.textContent = copy.labels.accent;
+  onboardingPreviewLanguageValue.textContent =
+    availableLocales.find((locale) => locale.code === currentLocale)?.label ?? "English";
+  onboardingPreviewCurrencyValue.textContent =
+    availableCurrencies.find((currency) => currency.code === currentCurrency)?.label ?? "USD US$";
+  onboardingPreviewAccentValue.textContent = translateAccent(currentAccent);
+
+  if (onboardingLanguageSelect) {
+    onboardingLanguageSelect.value = currentLocale;
+    onboardingLanguageSelect.setAttribute("aria-label", copy.labels.language);
+  }
+
+  if (onboardingCurrencySelect) {
+    onboardingCurrencySelect.value = currentCurrency;
+    onboardingCurrencySelect.setAttribute("aria-label", copy.labels.currency);
+  }
+
+  onboardingPanels.forEach((panel, index) => {
+    panel.classList.toggle("is-active", index === onboardingStepIndex);
+  });
+
+  onboardingProgressDots.forEach((dot, index) => {
+    dot.classList.toggle("is-active", index <= onboardingStepIndex);
+  });
+
+  onboardingBackButton.classList.toggle("hidden", onboardingStepIndex === 0);
+  onboardingBackButton.textContent = copy.actions.back;
+  onboardingNextButton.textContent = onboardingStepIndex === steps.length - 1 ? copy.actions.finish : copy.actions.next;
+
+  renderOnboardingAccentOptions();
+}
+
+function renderOnboardingAccentOptions() {
+  if (!onboardingAccentOptions) {
+    return;
+  }
+
+  onboardingAccentOptions.innerHTML = availableAccents
+    .map(
+      (accent) => `
+        <button
+          class="onboarding-accent-button ${accent.code === currentAccent ? "is-active" : ""}"
+          type="button"
+          data-onboarding-accent="${accent.code}"
+          aria-pressed="${accent.code === currentAccent ? "true" : "false"}"
+        >
+          <span class="onboarding-accent-dot" style="--dot-color: ${accent.hex}"></span>
+          <span>${escapeHtml(translateAccent(accent.code))}</span>
+        </button>
+      `
+    )
+    .join("");
+
+  onboardingAccentOptions.querySelectorAll("[data-onboarding-accent]").forEach((button) => {
+    button.addEventListener("click", () => {
+      setAccent(button.dataset.onboardingAccent);
+      render();
+    });
+  });
 }
 
 function renderEvents() {
@@ -1371,31 +1788,38 @@ function setupPwa() {
 }
 
 function setupLanguageSelector() {
-  languageSelect.innerHTML = availableLocales
+  const localeOptions = availableLocales
     .map((locale) => `<option value="${locale.code}">${locale.label}</option>`)
     .join("");
-  languageSelect.value = currentLocale;
-
-  currencySelect.innerHTML = availableCurrencies
+  const currencyOptions = availableCurrencies
     .map((currency) => `<option value="${currency.code}">${currency.label}</option>`)
     .join("");
+
+  languageSelect.innerHTML = localeOptions;
+  languageSelect.value = currentLocale;
+  currencySelect.innerHTML = currencyOptions;
   currencySelect.value = currentCurrency;
+
+  if (onboardingLanguageSelect) {
+    onboardingLanguageSelect.innerHTML = localeOptions;
+    onboardingLanguageSelect.value = currentLocale;
+  }
+
+  if (onboardingCurrencySelect) {
+    onboardingCurrencySelect.innerHTML = currencyOptions;
+    onboardingCurrencySelect.value = currentCurrency;
+  }
+
   updateStateIcons();
 }
 
 function handleLocaleChange(event) {
-  currentLocale = event.currentTarget.value;
-  writeStorage(LOCALE_KEY, currentLocale);
-  currentQuoteIndex = -1;
-  setLandingQuote();
-  updateStateIcons();
+  setLocale(event.currentTarget.value);
   render();
 }
 
 function handleCurrencyChange(event) {
-  currentCurrency = event.currentTarget.value;
-  writeStorage(CURRENCY_KEY, currentCurrency);
-  updateStateIcons();
+  setCurrency(event.currentTarget.value);
   render();
 }
 
@@ -1412,6 +1836,43 @@ function handleSetCurrentEvent() {
   }
   saveState();
   render();
+}
+
+function handleOnboardingLocaleChange(event) {
+  setLocale(event.currentTarget.value);
+  render();
+}
+
+function handleOnboardingCurrencyChange(event) {
+  setCurrency(event.currentTarget.value);
+  render();
+}
+
+function handleOnboardingBack() {
+  onboardingStepIndex = Math.max(0, onboardingStepIndex - 1);
+  render();
+}
+
+function handleOnboardingNext() {
+  const steps = getOnboardingCopy().steps;
+
+  if (onboardingStepIndex >= steps.length - 1) {
+    completeOnboarding();
+    return;
+  }
+
+  onboardingStepIndex += 1;
+  render();
+}
+
+function completeOnboarding() {
+  writeStorage(LOCALE_KEY, currentLocale);
+  writeStorage(CURRENCY_KEY, currentCurrency);
+  writeStorage(ACCENT_KEY, currentAccent);
+  writeStorage(ONBOARDING_KEY, "done");
+  hasCompletedOnboarding = true;
+  onboardingStepIndex = 0;
+  showScreen("screen-landing");
 }
 
 function handleOpenVoiceExpense() {
@@ -1472,7 +1933,7 @@ function handleToggleVoice() {
     };
   }
 
-  speechRecognition.lang = currentLocale === "es" ? "es-ES" : "en-US";
+  speechRecognition.lang = getRecognitionLocale();
 
   if (isListening) {
     speechRecognition.stop();
@@ -1631,6 +2092,8 @@ function renderTranslations() {
   currencySelect.setAttribute("aria-label", t.navCurrency);
   languageSelect.parentElement?.setAttribute("aria-label", t.navLanguage);
   currencySelect.parentElement?.setAttribute("aria-label", t.navCurrency);
+  languageSelect.value = currentLocale;
+  currencySelect.value = currentCurrency;
   updateStateIcons();
 
   for (const button of backButtons) {
@@ -1724,6 +2187,10 @@ function getCopy() {
   return translations[currentLocale] ?? translations.en;
 }
 
+function getOnboardingCopy() {
+  return onboardingTranslations[currentLocale] ?? onboardingTranslations.en;
+}
+
 function getQuotes() {
   return getCopy().quotes ?? translations.en.quotes;
 }
@@ -1731,6 +2198,11 @@ function getQuotes() {
 function translateCategory(key) {
   const t = getCopy();
   return t.category[key] ?? capitalize(key);
+}
+
+function translateAccent(key) {
+  const localeAccents = accentTranslations[currentLocale] ?? accentTranslations.en;
+  return localeAccents[key] ?? accentTranslations.en[key] ?? capitalize(key);
 }
 
 function setText(selector, index, text) {
@@ -1746,6 +2218,10 @@ function updateStateIcons() {
 
   languageStateIcon.textContent = locale?.icon ?? "EN";
   currencyStateIcon.textContent = currency?.icon ?? "$";
+}
+
+function getRecognitionLocale() {
+  return recognitionLocales[currentLocale] ?? recognitionLocales.en;
 }
 
 function parseExpenseFromTranscript(transcript) {
@@ -1870,7 +2346,6 @@ function applyAccentTheme() {
 function cycleAccentTheme() {
   const currentIndex = availableAccents.findIndex((accent) => accent.code === currentAccent);
   const nextIndex = currentIndex === -1 ? 0 : (currentIndex + 1) % availableAccents.length;
-  currentAccent = availableAccents[nextIndex].code;
-  writeStorage(ACCENT_KEY, currentAccent);
-  applyAccentTheme();
+  setAccent(availableAccents[nextIndex].code);
+  renderOnboarding();
 }
