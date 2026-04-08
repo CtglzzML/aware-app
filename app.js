@@ -1099,6 +1099,7 @@ function render() {
 function renderEvents() {
   const t = getCopy();
   eventCount.textContent = t.itemCount(state.events.length);
+  goCreateButton?.classList.toggle("hidden", state.events.length === 0);
 
   if (!state.events.length) {
     eventList.innerHTML = `
@@ -1193,6 +1194,7 @@ function renderDetail() {
     "danger-text",
     Boolean(selectedEvent.budget && sumExpenses(selectedEvent) > selectedEvent.budget)
   );
+  setCurrentEventButton.classList.toggle("is-current", state.currentEventIds.includes(selectedEvent.id));
   setCurrentEventButton.textContent =
     state.currentEventIds.includes(selectedEvent.id) ? t.currentEventActive : t.setAsCurrent;
 
