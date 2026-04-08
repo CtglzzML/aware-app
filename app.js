@@ -1623,7 +1623,8 @@ function renderTranslations() {
   document.querySelector("#landing-footer").textContent = t.landingFooter;
   goDashboardFromEventsButton.textContent = t.navDashboard;
   if (goCreateButton) {
-    goCreateButton.textContent = t.navNew;
+    goCreateButton.textContent = "+";
+    goCreateButton.setAttribute("aria-label", t.createEventLabel);
   }
   dashboardEventsButton.textContent = t.navEvents;
   languageSelect.setAttribute("aria-label", t.navLanguage);
