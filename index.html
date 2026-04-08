@@ -44,11 +44,10 @@
       <section class="screen app-screen" id="screen-dashboard">
         <header class="topbar">
           <div>
-            <p class="eyebrow brand-label">aware</p>
+            <p class="eyebrow brand-label brand-home-link">aware</p>
             <h2>Dashboard</h2>
           </div>
           <div class="topbar-actions">
-            <button class="ghost-button compact-button" id="dashboard-home-button" type="button">Home</button>
             <button class="ghost-button compact-button" id="dashboard-events-button" type="button">Events</button>
           </div>
         </header>
@@ -94,35 +93,11 @@
           <div class="section-row analysis-row">
             <p class="mono-label">aware analysis</p>
           </div>
-          <div class="insight-card">
+          <div class="insight-card" id="dashboard-insight-card">
             <p class="insight-eyebrow" id="dashboard-insight-title">No drama yet</p>
             <p class="insight-text" id="dashboard-insight-text">
               Add a few expenses and I will gently judge your priorities.
             </p>
-          </div>
-        </section>
-
-        <section class="panel">
-          <div class="section-row analysis-row">
-            <p class="mono-label">Quote lab</p>
-          </div>
-          <div class="insight-card suggestion-card">
-            <p class="insight-eyebrow" id="quote-suggestion-title">Think you can outwrite us?</p>
-            <p class="insight-text" id="quote-suggestion-text">
-              Drop a line. If it actually hits, we might let it into the rotation.
-            </p>
-            <form id="quote-suggestion-form" class="quote-suggestion-form">
-              <textarea
-                id="quote-suggestion-input"
-                rows="3"
-                maxlength="140"
-                placeholder="Your best line goes here"
-              ></textarea>
-              <button class="primary-button compact-button" id="quote-suggestion-submit" type="submit">
-                Send quote
-              </button>
-            </form>
-            <p class="subtle-text voice-feedback" id="quote-suggestion-feedback"></p>
           </div>
         </section>
 
@@ -141,11 +116,10 @@
       <section class="screen app-screen" id="screen-events">
         <header class="topbar">
           <div>
-            <p class="eyebrow brand-label">aware</p>
+            <p class="eyebrow brand-label brand-home-link">aware</p>
             <h2>Your events</h2>
           </div>
           <div class="topbar-actions">
-            <button class="ghost-button compact-button" id="go-landing-button" type="button">Home</button>
             <button class="ghost-button compact-button" id="go-dashboard-from-events-button" type="button">
               Dashboard
             </button>
@@ -165,7 +139,7 @@
       <section class="screen app-screen" id="screen-create-event">
         <header class="topbar">
           <div>
-            <p class="eyebrow brand-label">aware</p>
+            <p class="eyebrow brand-label brand-home-link">aware</p>
             <h2>Create event</h2>
           </div>
           <div class="topbar-actions">
@@ -210,7 +184,7 @@
       <section class="screen app-screen" id="screen-event-detail">
         <header class="topbar">
           <div>
-            <p class="eyebrow brand-label">aware</p>
+            <p class="eyebrow brand-label brand-home-link">aware</p>
             <h2>Event</h2>
           </div>
           <div class="topbar-actions">
@@ -261,7 +235,7 @@
       <section class="screen app-screen" id="screen-add-expense">
         <header class="topbar">
           <div>
-            <p class="eyebrow brand-label">aware</p>
+            <p class="eyebrow brand-label brand-home-link">aware</p>
             <h2>Add expense</h2>
           </div>
           <div class="topbar-actions">
@@ -329,6 +303,31 @@
         </section>
       </section>
     </div>
+
+    <dialog class="quote-modal" id="quote-suggestion-modal">
+      <form class="quote-modal-card" id="quote-suggestion-form" method="dialog">
+        <div class="section-row analysis-row">
+          <p class="mono-label" id="quote-suggestion-label">Quote lab</p>
+          <button class="ghost-button compact-button" id="quote-suggestion-close" type="button">Close</button>
+        </div>
+        <p class="insight-eyebrow" id="quote-suggestion-title">Think you can outwrite us?</p>
+        <p class="insight-text" id="quote-suggestion-text">
+          Drop a line. If it actually hits, we might let it into the rotation.
+        </p>
+        <textarea
+          id="quote-suggestion-input"
+          rows="3"
+          maxlength="140"
+          placeholder="Your best line goes here"
+        ></textarea>
+        <div class="quote-modal-actions">
+          <button class="primary-button compact-button" id="quote-suggestion-submit" type="submit">
+            Send quote
+          </button>
+        </div>
+        <p class="subtle-text voice-feedback" id="quote-suggestion-feedback"></p>
+      </form>
+    </dialog>
 
     <template id="event-card-template">
       <button class="event-card" type="button">

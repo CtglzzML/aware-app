@@ -8,12 +8,11 @@ const languageSelect = document.querySelector("#language-select");
 const currencySelect = document.querySelector("#currency-select");
 const languageStateIcon = document.querySelector("#language-state-icon");
 const currencyStateIcon = document.querySelector("#currency-state-icon");
-const goLandingButton = document.querySelector("#go-landing-button");
 const goDashboardFromEventsButton = document.querySelector("#go-dashboard-from-events-button");
 const goCreateButton = document.querySelector("#go-create-button");
 const goAddExpenseButton = document.querySelector("#go-add-expense-button");
-const dashboardHomeButton = document.querySelector("#dashboard-home-button");
 const dashboardEventsButton = document.querySelector("#dashboard-events-button");
+const brandHomeLinks = document.querySelectorAll(".brand-home-link");
 const backButtons = document.querySelectorAll("[data-back]");
 const eventForm = document.querySelector("#event-form");
 const expenseForm = document.querySelector("#expense-form");
@@ -35,6 +34,9 @@ const voiceFeedback = document.querySelector("#voice-feedback");
 const quoteSuggestionForm = document.querySelector("#quote-suggestion-form");
 const quoteSuggestionInput = document.querySelector("#quote-suggestion-input");
 const quoteSuggestionFeedback = document.querySelector("#quote-suggestion-feedback");
+const quoteSuggestionModal = document.querySelector("#quote-suggestion-modal");
+const quoteSuggestionClose = document.querySelector("#quote-suggestion-close");
+const dashboardInsightCard = document.querySelector("#dashboard-insight-card");
 
 const detailType = document.querySelector("#detail-type");
 const detailName = document.querySelector("#detail-name");
@@ -99,6 +101,7 @@ const translations = {
     quoteSuggestionSubmit: "Send quote",
     quoteSuggestionEmpty: "You need to give us something to judge first.",
     quoteSuggestionReady: "Your mail app is opening. Bold move.",
+    quoteSuggestionClose: "Close",
     navHome: "Home",
     navEvents: "Events",
     navNew: "New",
@@ -211,6 +214,7 @@ const translations = {
     quoteSuggestionSubmit: "Enviar frase",
     quoteSuggestionEmpty: "Primero danos algo que juzgar.",
     quoteSuggestionReady: "Tu app de correo se esta abriendo. Valiente.",
+    quoteSuggestionClose: "Cerrar",
     navHome: "Inicio",
     navEvents: "Eventos",
     navNew: "Nuevo",
@@ -323,6 +327,7 @@ const translations = {
     quoteSuggestionSubmit: "Envoyer",
     quoteSuggestionEmpty: "Donne-nous d'abord quelque chose a juger.",
     quoteSuggestionReady: "Ton app mail s'ouvre. Beau culot.",
+    quoteSuggestionClose: "Fermer",
     navHome: "Accueil",
     navEvents: "Events",
     navNew: "Nouveau",
@@ -421,6 +426,7 @@ const translations = {
     quoteSuggestionSubmit: "Spruch senden",
     quoteSuggestionEmpty: "Gib uns erst etwas zum Bewerten.",
     quoteSuggestionReady: "Deine Mail-App geht auf. Selbstbewusst.",
+    quoteSuggestionClose: "Schliessen",
     navHome: "Start",
     navEvents: "Events",
     navNew: "Neu",
@@ -519,6 +525,7 @@ const translations = {
     quoteSuggestionSubmit: "Invia frase",
     quoteSuggestionEmpty: "Prima dacci qualcosa da giudicare.",
     quoteSuggestionReady: "Si apre la tua mail. Bel coraggio.",
+    quoteSuggestionClose: "Chiudi",
     navHome: "Home",
     navEvents: "Eventi",
     navNew: "Nuovo",
@@ -617,6 +624,7 @@ const translations = {
     quoteSuggestionSubmit: "Enviar frase",
     quoteSuggestionEmpty: "Primeiro da-nos algo para julgar.",
     quoteSuggestionReady: "A tua app de email esta a abrir. Atrevido.",
+    quoteSuggestionClose: "Fechar",
     navHome: "Inicio",
     navEvents: "Eventos",
     navNew: "Novo",
@@ -859,15 +867,16 @@ startButton.addEventListener("click", handlePrimaryAction);
 goEventsButton.addEventListener("click", () => showScreen("screen-events"));
 goDashboardButton.addEventListener("click", () => showScreen("screen-dashboard"));
 landingBrandButton.addEventListener("click", cycleAccentTheme);
-goLandingButton.addEventListener("click", () => showScreen("screen-landing"));
 goDashboardFromEventsButton.addEventListener("click", () => showScreen("screen-dashboard"));
 goCreateButton.addEventListener("click", () => showScreen("screen-create-event"));
 goAddExpenseButton.addEventListener("click", () => showScreen("screen-add-expense"));
 setCurrentEventButton.addEventListener("click", handleSetCurrentEvent);
 goVoiceExpenseButton.addEventListener("click", handleOpenVoiceExpense);
-dashboardHomeButton.addEventListener("click", () => showScreen("screen-landing"));
 dashboardEventsButton.addEventListener("click", () => showScreen("screen-events"));
 landingQuote.addEventListener("click", rotateLandingQuote);
+brandHomeLinks.forEach((link) => {
+  link.addEventListener("click", () => showScreen("screen-landing"));
+});
 languageSelect.addEventListener("change", handleLocaleChange);
 currencySelect.addEventListener("change", handleCurrencyChange);
 toggleVoiceButton.addEventListener("click", handleToggleVoice);
@@ -880,6 +889,8 @@ eventForm.addEventListener("submit", handleCreateEvent);
 expenseForm.addEventListener("submit", handleAddExpense);
 deleteEventButton.addEventListener("click", handleDeleteEvent);
 quoteSuggestionForm?.addEventListener("submit", handleQuoteSuggestion);
+quoteSuggestionClose?.addEventListener("click", closeQuoteSuggestionModal);
+dashboardInsightCard?.addEventListener("click", openQuoteSuggestionModal);
 
 setupPwa();
 setupLanguageSelector();
@@ -1023,6 +1034,25 @@ function handleQuoteSuggestion(event) {
 
   quoteSuggestionFeedback.textContent = t.quoteSuggestionReady;
   window.location.href = `mailto:${user}@${host}?subject=${subject}&body=${body}`;
+}
+
+function openQuoteSuggestionModal() {
+  quoteSuggestionFeedback.textContent = "";
+  if (typeof quoteSuggestionModal?.showModal === "function") {
+    quoteSuggestionModal.showModal();
+    return;
+  }
+
+  quoteSuggestionModal?.setAttribute("open", "open");
+}
+
+function closeQuoteSuggestionModal() {
+  if (typeof quoteSuggestionModal?.close === "function") {
+    quoteSuggestionModal.close();
+    return;
+  }
+
+  quoteSuggestionModal?.removeAttribute("open");
 }
 
 function handleDeleteEvent() {
@@ -1583,10 +1613,8 @@ function renderTranslations() {
   goEventsButton.textContent = t.landingCtaEvents;
   goDashboardButton.textContent = t.landingCtaDashboard;
   document.querySelector("#landing-footer").textContent = t.landingFooter;
-  goLandingButton.textContent = t.navHome;
   goDashboardFromEventsButton.textContent = t.navDashboard;
   goCreateButton.textContent = t.navNew;
-  dashboardHomeButton.textContent = t.navHome;
   dashboardEventsButton.textContent = t.navEvents;
   languageSelect.setAttribute("aria-label", t.navLanguage);
   currencySelect.setAttribute("aria-label", t.navCurrency);
@@ -1615,7 +1643,6 @@ function renderTranslations() {
   setText("#screen-dashboard .section-row .mono-label", 0, t.overview);
   setText("#screen-dashboard .section-row .mono-label", 1, t.categorySpend);
   setText("#screen-dashboard .section-row .mono-label", 2, t.awareAnalysis);
-  setText("#screen-dashboard .section-row .mono-label", 3, t.quoteLab);
   setText("#screen-dashboard .section-row .subtle-text", 0, t.lastEvents(5));
   setText("#screen-dashboard .section-row .subtle-text", 1, t.lastEvents(5));
   setText(".dashboard-grid .summary-card span", 0, t.totalSpent);
@@ -1629,9 +1656,11 @@ function renderTranslations() {
   toggleVoiceButton.textContent = isListening ? t.stopVoice : t.startVoice;
   parseVoiceButton.textContent = t.parseVoice;
   useCurrentEventButton.textContent = t.useCurrentEvent;
+  document.querySelector("#quote-suggestion-label").textContent = t.quoteLab;
   document.querySelector("#quote-suggestion-title").textContent = t.quoteSuggestionTitle;
   document.querySelector("#quote-suggestion-text").textContent = t.quoteSuggestionBody;
   document.querySelector("#quote-suggestion-submit").textContent = t.quoteSuggestionSubmit;
+  document.querySelector("#quote-suggestion-close").textContent = t.quoteSuggestionClose;
   quoteSuggestionInput.placeholder = t.quoteSuggestionPlaceholder;
 
   updateFormTranslations(t);

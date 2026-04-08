@@ -141,6 +141,10 @@ textarea {
   margin: 0;
 }
 
+.brand-home-link {
+  cursor: pointer;
+}
+
 .brand-label::after {
   content: ".";
   color: var(--signal);
@@ -599,6 +603,40 @@ button:hover {
 
 .quote-suggestion-form textarea {
   min-height: 112px;
+}
+
+.quote-modal {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  width: min(92vw, 560px);
+}
+
+.quote-modal::backdrop {
+  background: rgba(5, 7, 9, 0.72);
+  backdrop-filter: blur(10px);
+}
+
+.quote-modal-card {
+  display: grid;
+  gap: 18px;
+  width: 100%;
+  border-radius: 28px;
+  padding: 28px;
+  background:
+    linear-gradient(135deg, rgba(var(--signal-rgb), 0.07), rgba(255, 255, 255, 0.01)),
+    var(--panel);
+  border: 1px solid rgba(var(--signal-rgb), 0.14);
+  box-shadow: var(--shadow);
+}
+
+.quote-modal-card textarea {
+  min-height: 112px;
+}
+
+.quote-modal-actions {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .current-event-banner,
