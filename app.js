@@ -85,7 +85,7 @@ const availableAccents = [
 const translations = {
   en: {
     appName: "aware",
-    landingCtaCreate: "CREATE event",
+    landingCtaCreate: "Add expense",
     landingCtaEvents: "Go to my events",
     landingCtaDashboard: "Dashboard",
     navHome: "Home",
@@ -127,7 +127,7 @@ const translations = {
     trackedEvents: "Tracked events",
     categorySpend: "Category spend",
     awareAnalysis: "Analysis",
-    currentEvent: "Current event",
+    currentEvent: "Current events",
     noDramaYet: "No drama yet",
     noDramaBody: "Add a few expenses and I will gently judge your priorities.",
     noDramaDashboard: "Add a few expenses and I will gently judge your priorities across the last five events.",
@@ -139,12 +139,12 @@ const translations = {
     noBudget: "No budget",
     noBudgetSet: "No budget set",
     addOneInEvent: "Add one in the event",
-    currentEventActive: "Current event active",
-    setAsCurrent: "Set as current",
+    currentEventActive: "Marked as current",
+    setAsCurrent: "Mark as current",
     addByVoice: "Add by voice",
     voiceNote: "Voice note",
-    currentEventLabel: (name) => `Current event: ${name}`,
-    currentEventNone: "Current event: none",
+    currentEventLabel: (name) => `Current events: ${name}`,
+    currentEventNone: "Current events: none",
     startVoice: "Start voice",
     stopVoice: "Stop voice",
     transcript: "Transcript",
@@ -188,7 +188,7 @@ const translations = {
   },
   es: {
     appName: "aware",
-    landingCtaCreate: "CREAR evento",
+    landingCtaCreate: "Anadir gasto",
     landingCtaEvents: "Ir a mis eventos",
     landingCtaDashboard: "Panel",
     navHome: "Inicio",
@@ -230,7 +230,7 @@ const translations = {
     trackedEvents: "Eventos registrados",
     categorySpend: "Gasto por categoria",
     awareAnalysis: "Analisis",
-    currentEvent: "Evento actual",
+    currentEvent: "Eventos actuales",
     noDramaYet: "Aun sin drama",
     noDramaBody: "Anade unos gastos y juzgare tus prioridades con carino.",
     noDramaDashboard: "Anade unos gastos y juzgare tus prioridades en los ultimos cinco eventos.",
@@ -242,12 +242,12 @@ const translations = {
     noBudget: "Sin presupuesto",
     noBudgetSet: "Sin presupuesto",
     addOneInEvent: "Anadelo en el evento",
-    currentEventActive: "Evento actual activo",
+    currentEventActive: "Marcado como actual",
     setAsCurrent: "Marcar actual",
     addByVoice: "Anadir por voz",
     voiceNote: "Nota de voz",
-    currentEventLabel: (name) => `Evento actual: ${name}`,
-    currentEventNone: "Evento actual: ninguno",
+    currentEventLabel: (name) => `Eventos actuales: ${name}`,
+    currentEventNone: "Eventos actuales: ninguno",
     startVoice: "Empezar voz",
     stopVoice: "Parar voz",
     transcript: "Transcripcion",
@@ -291,7 +291,7 @@ const translations = {
   },
   fr: {
     appName: "aware",
-    landingCtaCreate: "Creer un event",
+    landingCtaCreate: "Ajouter depense",
     landingCtaEvents: "Mes events",
     landingCtaDashboard: "Tableau",
     navHome: "Accueil",
@@ -380,7 +380,7 @@ const translations = {
   },
   de: {
     appName: "aware",
-    landingCtaCreate: "EVENT erstellen",
+    landingCtaCreate: "Ausgabe hinzufugen",
     landingCtaEvents: "Zu meinen Events",
     landingCtaDashboard: "Ubersicht",
     navHome: "Start",
@@ -469,7 +469,7 @@ const translations = {
   },
   it: {
     appName: "aware",
-    landingCtaCreate: "CREA evento",
+    landingCtaCreate: "Aggiungi spesa",
     landingCtaEvents: "Vai ai miei eventi",
     landingCtaDashboard: "Panoramica",
     navHome: "Home",
@@ -558,7 +558,7 @@ const translations = {
   },
   pt: {
     appName: "aware",
-    landingCtaCreate: "CRIAR evento",
+    landingCtaCreate: "Adicionar gasto",
     landingCtaEvents: "Ir para meus eventos",
     landingCtaDashboard: "Painel",
     navHome: "Inicio",
@@ -798,7 +798,7 @@ let currentAccent = loadAccent();
 let speechRecognition = null;
 let isListening = false;
 
-startButton.addEventListener("click", () => showScreen("screen-create-event"));
+startButton.addEventListener("click", handlePrimaryAction);
 goEventsButton.addEventListener("click", () => showScreen("screen-events"));
 goDashboardButton.addEventListener("click", () => showScreen("screen-dashboard"));
 landingBrandButton.addEventListener("click", cycleAccentTheme);
@@ -832,17 +832,22 @@ render();
 function loadState() {
   const saved = readStorage(STORAGE_KEY);
   if (!saved) {
-    return { events: [], currentEventId: null };
+    return { events: [], currentEventIds: [] };
   }
 
   try {
     const parsed = JSON.parse(saved);
+    const currentEventIds = Array.isArray(parsed.currentEventIds)
+      ? parsed.currentEventIds.filter((id) => typeof id === "string")
+      : typeof parsed.currentEventId === "string"
+        ? [parsed.currentEventId]
+        : [];
     return {
       events: Array.isArray(parsed.events) ? parsed.events : [],
-      currentEventId: typeof parsed.currentEventId === "string" ? parsed.currentEventId : null
+      currentEventIds
     };
   } catch {
-    return { events: [], currentEventId: null };
+    return { events: [], currentEventIds: [] };
   }
 }
 
@@ -885,10 +890,24 @@ function handleCreateEvent(event) {
 
   state.events.unshift(newEvent);
   selectedEventId = newEvent.id;
-  state.currentEventId = newEvent.id;
+  state.currentEventIds = [newEvent.id, ...state.currentEventIds.filter((id) => id !== newEvent.id)];
   saveState();
   event.currentTarget.reset();
   showScreen("screen-event-detail");
+}
+
+function handlePrimaryAction() {
+  const currentEvent = getCurrentEvent();
+  const fallbackEvent = state.events[0] ?? null;
+  const targetEvent = currentEvent ?? fallbackEvent;
+
+  if (!targetEvent) {
+    showScreen("screen-create-event");
+    return;
+  }
+
+  selectedEventId = targetEvent.id;
+  showScreen("screen-add-expense");
 }
 
 function handleAddExpense(event) {
@@ -931,9 +950,7 @@ function handleDeleteEvent() {
 
   state.events = state.events.filter((event) => event.id !== selectedEvent.id);
   selectedEventId = state.events[0]?.id ?? null;
-  if (state.currentEventId === selectedEvent.id) {
-    state.currentEventId = state.events[0]?.id ?? null;
-  }
+  state.currentEventIds = state.currentEventIds.filter((id) => id !== selectedEvent.id);
   saveState();
 
   if (state.events.length) {
@@ -986,7 +1003,7 @@ function renderEvents() {
           <div>
             <p class="mono-label event-card-type">${escapeHtml(translateCategory(event.type))}</p>
             <h3 class="event-card-name">${escapeHtml(event.name)}</h3>
-            ${state.currentEventId === event.id ? '<span class="status-chip">Current</span>' : ""}
+            ${state.currentEventIds.includes(event.id) ? '<span class="status-chip">Current</span>' : ""}
           </div>
           <strong class="event-card-total">${formatCurrency(spent)}</strong>
         </div>
@@ -1054,7 +1071,7 @@ function renderDetail() {
     Boolean(selectedEvent.budget && sumExpenses(selectedEvent) > selectedEvent.budget)
   );
   setCurrentEventButton.textContent =
-    state.currentEventId === selectedEvent.id ? t.currentEventActive : t.setAsCurrent;
+    state.currentEventIds.includes(selectedEvent.id) ? t.currentEventActive : t.setAsCurrent;
 
   if (!selectedEvent.expenses.length) {
     expenseList.innerHTML = `<div class="empty-state">${escapeHtml(t.noExpenses)}</div>`;
@@ -1078,7 +1095,7 @@ function renderDetail() {
 
 function renderDashboard() {
   const t = getCopy();
-  const currentEvent = getCurrentEvent();
+  const currentEvents = getCurrentEvents();
   const recentEvents = [...state.events]
     .sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0))
     .slice(0, 5);
@@ -1093,9 +1110,7 @@ function renderDashboard() {
   const averageSpent = recentEvents.length ? totalSpent / recentEvents.length : 0;
 
   dashboardRangeLabel.textContent = t.lastEvents(recentEvents.length || 0);
-  document.querySelector("#dashboard-current-event-name").textContent = currentEvent
-    ? currentEvent.name
-    : "None selected";
+  document.querySelector("#dashboard-current-event-name").textContent = getCurrentEventSummary(currentEvents, t);
   dashboardTotalSpent.textContent = formatCurrency(totalSpent);
   dashboardAverageSpent.textContent = formatCurrency(averageSpent);
   dashboardTopCategory.textContent = totalSpent ? topCategory.label : t.none;
@@ -1163,8 +1178,30 @@ function getSelectedEvent() {
   return state.events.find((event) => event.id === selectedEventId) ?? null;
 }
 
+function getCurrentEvents() {
+  return state.currentEventIds
+    .map((id) => state.events.find((event) => event.id === id) ?? null)
+    .filter(Boolean);
+}
+
 function getCurrentEvent() {
-  return state.events.find((event) => event.id === state.currentEventId) ?? null;
+  return getCurrentEvents()[0] ?? null;
+}
+
+function getCurrentEventSummary(currentEvents, t) {
+  if (!currentEvents.length) {
+    return t.none;
+  }
+
+  if (currentEvents.length === 1) {
+    return currentEvents[0].name;
+  }
+
+  if (currentEvents.length === 2) {
+    return `${currentEvents[0].name} + ${currentEvents[1].name}`;
+  }
+
+  return `${currentEvents[0].name} +${currentEvents.length - 1}`;
 }
 
 function sumExpenses(event) {
@@ -1252,15 +1289,19 @@ function handleSetCurrentEvent() {
     return;
   }
 
-  state.currentEventId = selectedEvent.id;
+  if (state.currentEventIds.includes(selectedEvent.id)) {
+    state.currentEventIds = state.currentEventIds.filter((id) => id !== selectedEvent.id);
+  } else {
+    state.currentEventIds = [selectedEvent.id, ...state.currentEventIds];
+  }
   saveState();
   render();
 }
 
 function handleOpenVoiceExpense() {
   const selectedEvent = getSelectedEvent();
-  if (selectedEvent) {
-    state.currentEventId = selectedEvent.id;
+  if (selectedEvent && !state.currentEventIds.includes(selectedEvent.id)) {
+    state.currentEventIds = [selectedEvent.id, ...state.currentEventIds];
     saveState();
   }
   showScreen("screen-add-expense");
@@ -1280,9 +1321,9 @@ function handleUseCurrentEvent() {
 
 function renderVoicePanel() {
   const t = getCopy();
-  const currentEvent = getCurrentEvent();
-  voiceCurrentEventLabel.textContent = currentEvent
-    ? t.currentEventLabel(currentEvent.name)
+  const currentEvents = getCurrentEvents();
+  voiceCurrentEventLabel.textContent = currentEvents.length
+    ? t.currentEventLabel(getCurrentEventSummary(currentEvents, t))
     : t.currentEventNone;
   toggleVoiceButton.textContent = isListening ? t.stopVoice : t.startVoice;
 }

@@ -51,7 +51,7 @@ textarea {
 }
 
 .app-shell {
-  max-width: 520px;
+  max-width: 680px;
   margin: 0 auto;
   min-height: calc(100vh - 32px);
   background: transparent;
@@ -82,19 +82,23 @@ textarea {
   box-shadow: none !important;
   backdrop-filter: none !important;
   outline: 0;
-  place-items: center;
-  padding: var(--space-24);
+  grid-template-rows: auto 1fr;
+  align-items: stretch;
+  padding: 24px 24px 28px;
   position: relative;
 }
 
 .landing-copy {
+  align-self: stretch;
   text-align: center;
-  max-width: 340px;
+  max-width: 560px;
   width: 100%;
-  min-height: 310px;
+  min-height: 100%;
   display: grid;
-  align-content: center;
+  grid-template-rows: 1fr auto;
   justify-items: center;
+  margin: 0 auto;
+  padding: 72px 0 0;
 }
 
 .brand-lockup {
@@ -130,8 +134,10 @@ textarea {
   display: grid;
   gap: var(--space-24);
   width: 100%;
-  max-width: 220px;
-  margin-top: var(--space-24);
+  max-width: 260px;
+  margin-top: 32px;
+  align-self: end;
+  padding-bottom: clamp(8px, 2vh, 20px);
 }
 
 .eyebrow,
@@ -158,12 +164,15 @@ textarea {
 }
 
 .landing-copy h1 {
-  font-size: clamp(1.9rem, 7vw, 3rem);
-  line-height: 1.02;
-  margin-bottom: var(--space-24);
-  min-height: 5.2em;
+  font-size: clamp(2.8rem, 8vw, 4.75rem);
+  line-height: 0.96;
+  margin-bottom: 0;
+  max-width: 11ch;
+  min-height: 4.4em;
   display: grid;
   align-items: center;
+  justify-items: center;
+  text-wrap: balance;
 }
 
 #landing-quote {
@@ -195,14 +204,15 @@ textarea {
 .app-screen {
   gap: var(--space-24);
   align-content: start;
+  min-height: calc(100vh - 32px);
 }
 
 .topbar {
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: space-between;
-  gap: 18px;
-  padding: 8px 4px 2px;
+  gap: var(--space-24);
+  padding: 6px 0 0;
 }
 
 .topbar > :first-child {
@@ -214,10 +224,10 @@ textarea {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  min-width: 96px;
+  min-width: 0;
   flex-wrap: wrap;
   align-items: center;
-  max-width: 320px;
+  max-width: 340px;
 }
 
 .language-switcher {
@@ -278,13 +288,14 @@ textarea {
 }
 
 .topbar h2 {
-  font-size: 1.35rem;
-  margin-top: 6px;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1;
+  margin-top: 8px;
 }
 
 .panel {
   border-radius: 28px;
-  padding: var(--space-24);
+  padding: 28px;
 }
 
 .stack-form,
@@ -415,7 +426,7 @@ button:hover {
 }
 
 .analysis-row {
-  margin-bottom: 10px;
+  margin-bottom: 14px;
 }
 
 .event-card {
@@ -556,7 +567,7 @@ button:hover {
   display: grid;
   gap: 12px;
   border-radius: 22px;
-  padding: 18px;
+  padding: 20px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
   margin-bottom: var(--space-24);
@@ -586,7 +597,8 @@ button:hover {
   display: flex;
   justify-content: center;
   gap: 12px;
-  margin-top: 8px;
+  margin-top: auto;
+  padding: 4px 0 0;
   flex-wrap: wrap;
 }
 
@@ -676,22 +688,36 @@ button:hover {
 @media (max-width: 520px) {
   .landing-screen {
     min-height: calc(100vh - 32px);
-    padding: var(--space-24);
+    padding: 20px 20px 24px;
+  }
+
+  .landing-copy {
+    max-width: 100%;
+    padding-top: 80px;
+  }
+
+  .landing-copy h1 {
+    font-size: clamp(3.2rem, 11vw, 4.4rem);
+    max-width: 9.5ch;
+    min-height: 4.8em;
+    margin: 0 auto;
+  }
+
+  .landing-actions {
+    max-width: 100%;
+    width: min(100%, 280px);
+    justify-self: center;
   }
 
   .topbar {
-    flex-direction: column;
     align-items: stretch;
+    gap: 18px;
   }
 
   .topbar-actions {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: flex;
+    justify-content: flex-start;
     max-width: none;
-  }
-
-  .settings-dock {
-    flex-direction: column;
   }
 
   .section-row,
@@ -718,9 +744,24 @@ button:hover {
     grid-template-columns: 1fr;
   }
 
+  .settings-dock {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
   .primary-button,
   .ghost-button,
   .icon-button {
     width: 100%;
+  }
+
+  .topbar-actions .compact-button {
+    width: auto;
+  }
+
+  .settings-dock .language-switcher {
+    flex: 0 0 auto;
   }
 }
