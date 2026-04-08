@@ -36,7 +36,7 @@
               <button class="ghost-button" id="go-events-button" type="button">Go to my events</button>
               <button class="ghost-button" id="go-dashboard-button" type="button">Dashboard</button>
             </div>
-            <p class="landing-footer" id="landing-footer">Made with love by Carlito</p>
+            <p class="landing-footer" id="landing-footer">Made with love by Carlito's Way</p>
           </div>
         </div>
       </section>
@@ -123,14 +123,16 @@
             <button class="ghost-button compact-button" id="go-dashboard-from-events-button" type="button">
               Dashboard
             </button>
-            <button class="ghost-button compact-button" id="go-create-button" type="button">New</button>
           </div>
         </header>
 
         <section class="panel">
           <div class="section-row">
             <p class="mono-label">Saved events</p>
-            <span class="subtle-text" id="event-count">0 items</span>
+            <div class="events-panel-actions">
+              <span class="subtle-text" id="event-count">0 items</span>
+              <button class="accent-plus-button" id="go-create-button" type="button" aria-label="Create event">+</button>
+            </div>
           </div>
           <div id="event-list" class="event-list"></div>
         </section>
