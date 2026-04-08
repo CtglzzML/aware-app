@@ -88,6 +88,7 @@ const translations = {
     landingCtaCreate: "Add expense",
     landingCtaEvents: "Go to my events",
     landingCtaDashboard: "Dashboard",
+    landingFooter: "Made with love by Carlito",
     navHome: "Home",
     navEvents: "Events",
     navNew: "New",
@@ -191,6 +192,7 @@ const translations = {
     landingCtaCreate: "Anadir gasto",
     landingCtaEvents: "Ir a mis eventos",
     landingCtaDashboard: "Panel",
+    landingFooter: "Hecho con amor por Carlito",
     navHome: "Inicio",
     navEvents: "Eventos",
     navNew: "Nuevo",
@@ -294,6 +296,7 @@ const translations = {
     landingCtaCreate: "Ajouter depense",
     landingCtaEvents: "Mes events",
     landingCtaDashboard: "Tableau",
+    landingFooter: "Fait avec amour par Carlito",
     navHome: "Accueil",
     navEvents: "Events",
     navNew: "Nouveau",
@@ -383,6 +386,7 @@ const translations = {
     landingCtaCreate: "Ausgabe hinzufugen",
     landingCtaEvents: "Zu meinen Events",
     landingCtaDashboard: "Ubersicht",
+    landingFooter: "Mit Liebe gemacht von Carlito",
     navHome: "Start",
     navEvents: "Events",
     navNew: "Neu",
@@ -472,6 +476,7 @@ const translations = {
     landingCtaCreate: "Aggiungi spesa",
     landingCtaEvents: "Vai ai miei eventi",
     landingCtaDashboard: "Panoramica",
+    landingFooter: "Fatto con amore da Carlito",
     navHome: "Home",
     navEvents: "Eventi",
     navNew: "Nuovo",
@@ -561,6 +566,7 @@ const translations = {
     landingCtaCreate: "Adicionar gasto",
     landingCtaEvents: "Ir para meus eventos",
     landingCtaDashboard: "Painel",
+    landingFooter: "Feito com amor por Carlito",
     navHome: "Inicio",
     navEvents: "Eventos",
     navNew: "Novo",
@@ -1504,6 +1510,7 @@ function renderTranslations() {
   startButton.textContent = t.landingCtaCreate;
   goEventsButton.textContent = t.landingCtaEvents;
   goDashboardButton.textContent = t.landingCtaDashboard;
+  document.querySelector("#landing-footer").textContent = t.landingFooter;
   goLandingButton.textContent = t.navHome;
   goDashboardFromEventsButton.textContent = t.navDashboard;
   goCreateButton.textContent = t.navNew;

@@ -93,12 +93,28 @@ textarea {
   text-align: center;
   max-width: 560px;
   width: 100%;
-  min-height: 100%;
+  min-height: calc(100vh - 32px - 52px);
   display: grid;
   grid-template-rows: 1fr auto;
   justify-items: center;
   margin: 0 auto;
   padding: 72px 0 0;
+}
+
+.landing-quote-wrap {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  align-self: center;
+}
+
+.landing-bottom {
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  align-self: end;
+  gap: 18px;
+  padding-bottom: clamp(4px, 2vh, 18px);
 }
 
 .brand-lockup {
@@ -135,9 +151,17 @@ textarea {
   gap: var(--space-24);
   width: 100%;
   max-width: 260px;
-  margin-top: 32px;
+  margin-top: 0;
   align-self: end;
-  padding-bottom: clamp(8px, 2vh, 20px);
+}
+
+.landing-footer {
+  margin: 0;
+  color: rgba(241, 243, 245, 0.5);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-align: center;
 }
 
 .eyebrow,
@@ -694,6 +718,7 @@ button:hover {
   .landing-copy {
     max-width: 100%;
     padding-top: 80px;
+    min-height: calc(100vh - 32px - 44px);
   }
 
   .landing-copy h1 {
@@ -707,6 +732,11 @@ button:hover {
     max-width: 100%;
     width: min(100%, 280px);
     justify-self: center;
+  }
+
+  .landing-bottom {
+    width: 100%;
+    padding-bottom: max(6px, env(safe-area-inset-bottom));
   }
 
   .topbar {
