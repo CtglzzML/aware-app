@@ -587,6 +587,20 @@ button:hover {
   font-size: 0.95rem;
 }
 
+.suggestion-card {
+  gap: 18px;
+}
+
+.quote-suggestion-form {
+  display: grid;
+  gap: 14px;
+  margin-top: 2px;
+}
+
+.quote-suggestion-form textarea {
+  min-height: 112px;
+}
+
 .current-event-banner,
 .voice-panel {
   display: grid;

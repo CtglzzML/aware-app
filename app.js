@@ -32,6 +32,9 @@ const parseVoiceButton = document.querySelector("#parse-voice-button");
 const useCurrentEventButton = document.querySelector("#use-current-event-button");
 const voiceTranscript = document.querySelector("#voice-transcript");
 const voiceFeedback = document.querySelector("#voice-feedback");
+const quoteSuggestionForm = document.querySelector("#quote-suggestion-form");
+const quoteSuggestionInput = document.querySelector("#quote-suggestion-input");
+const quoteSuggestionFeedback = document.querySelector("#quote-suggestion-feedback");
 
 const detailType = document.querySelector("#detail-type");
 const detailName = document.querySelector("#detail-name");
@@ -89,6 +92,13 @@ const translations = {
     landingCtaEvents: "Go to my events",
     landingCtaDashboard: "Dashboard",
     landingFooter: "Made with love by Carlito",
+    quoteLab: "Quote lab",
+    quoteSuggestionTitle: "Think you can outwrite us?",
+    quoteSuggestionBody: "Drop a line. If it actually hits, we might let it into the rotation.",
+    quoteSuggestionPlaceholder: "Your best line goes here",
+    quoteSuggestionSubmit: "Send quote",
+    quoteSuggestionEmpty: "You need to give us something to judge first.",
+    quoteSuggestionReady: "Your mail app is opening. Bold move.",
     navHome: "Home",
     navEvents: "Events",
     navNew: "New",
@@ -194,6 +204,13 @@ const translations = {
     landingCtaEvents: "Ir a mis eventos",
     landingCtaDashboard: "Panel",
     landingFooter: "Hecho con amor por Carlito",
+    quoteLab: "Laboratorio de frases",
+    quoteSuggestionTitle: "¿Crees que escribes mejor que nosotros?",
+    quoteSuggestionBody: "Deja tu frase. Si de verdad tiene nivel, igual entra en la rotacion.",
+    quoteSuggestionPlaceholder: "Escribe aqui tu mejor frase",
+    quoteSuggestionSubmit: "Enviar frase",
+    quoteSuggestionEmpty: "Primero danos algo que juzgar.",
+    quoteSuggestionReady: "Tu app de correo se esta abriendo. Valiente.",
     navHome: "Inicio",
     navEvents: "Eventos",
     navNew: "Nuevo",
@@ -299,6 +316,13 @@ const translations = {
     landingCtaEvents: "Mes events",
     landingCtaDashboard: "Tableau",
     landingFooter: "Fait avec amour par Carlito",
+    quoteLab: "Laboratoire de phrases",
+    quoteSuggestionTitle: "Tu penses ecrire mieux que nous ?",
+    quoteSuggestionBody: "Laisse ta phrase. Si elle frappe vraiment, on la fera peut-etre entrer dans la rotation.",
+    quoteSuggestionPlaceholder: "Ecris ici ta meilleure phrase",
+    quoteSuggestionSubmit: "Envoyer",
+    quoteSuggestionEmpty: "Donne-nous d'abord quelque chose a juger.",
+    quoteSuggestionReady: "Ton app mail s'ouvre. Beau culot.",
     navHome: "Accueil",
     navEvents: "Events",
     navNew: "Nouveau",
@@ -390,6 +414,13 @@ const translations = {
     landingCtaEvents: "Zu meinen Events",
     landingCtaDashboard: "Ubersicht",
     landingFooter: "Mit Liebe gemacht von Carlito",
+    quoteLab: "Zitatlabor",
+    quoteSuggestionTitle: "Denkst du, du schreibst besser als wir?",
+    quoteSuggestionBody: "Lass einen Spruch da. Wenn er wirklich trifft, kommt er vielleicht in die Rotation.",
+    quoteSuggestionPlaceholder: "Schreib hier deine beste Zeile",
+    quoteSuggestionSubmit: "Spruch senden",
+    quoteSuggestionEmpty: "Gib uns erst etwas zum Bewerten.",
+    quoteSuggestionReady: "Deine Mail-App geht auf. Selbstbewusst.",
     navHome: "Start",
     navEvents: "Events",
     navNew: "Neu",
@@ -481,6 +512,13 @@ const translations = {
     landingCtaEvents: "Vai ai miei eventi",
     landingCtaDashboard: "Panoramica",
     landingFooter: "Fatto con amore da Carlito",
+    quoteLab: "Laboratorio frasi",
+    quoteSuggestionTitle: "Pensi di scrivere meglio di noi?",
+    quoteSuggestionBody: "Lascia una frase. Se spacca davvero, potremmo metterla in rotazione.",
+    quoteSuggestionPlaceholder: "Scrivi qui la tua frase migliore",
+    quoteSuggestionSubmit: "Invia frase",
+    quoteSuggestionEmpty: "Prima dacci qualcosa da giudicare.",
+    quoteSuggestionReady: "Si apre la tua mail. Bel coraggio.",
     navHome: "Home",
     navEvents: "Eventi",
     navNew: "Nuovo",
@@ -572,6 +610,13 @@ const translations = {
     landingCtaEvents: "Ir para meus eventos",
     landingCtaDashboard: "Painel",
     landingFooter: "Feito com amor por Carlito",
+    quoteLab: "Laboratorio de frases",
+    quoteSuggestionTitle: "Achas que escreves melhor do que nos?",
+    quoteSuggestionBody: "Deixa uma frase. Se realmente bater, talvez entre na rotacao.",
+    quoteSuggestionPlaceholder: "Escreve aqui a tua melhor frase",
+    quoteSuggestionSubmit: "Enviar frase",
+    quoteSuggestionEmpty: "Primeiro da-nos algo para julgar.",
+    quoteSuggestionReady: "A tua app de email esta a abrir. Atrevido.",
     navHome: "Inicio",
     navEvents: "Eventos",
     navNew: "Novo",
@@ -834,6 +879,7 @@ backButtons.forEach((button) => {
 eventForm.addEventListener("submit", handleCreateEvent);
 expenseForm.addEventListener("submit", handleAddExpense);
 deleteEventButton.addEventListener("click", handleDeleteEvent);
+quoteSuggestionForm?.addEventListener("submit", handleQuoteSuggestion);
 
 setupPwa();
 setupLanguageSelector();
@@ -958,6 +1004,25 @@ function handleAddExpense(event) {
   saveState();
   event.currentTarget.reset();
   showScreen("screen-event-detail");
+}
+
+function handleQuoteSuggestion(event) {
+  event.preventDefault();
+  const t = getCopy();
+  const suggestion = quoteSuggestionInput.value.trim();
+
+  if (!suggestion) {
+    quoteSuggestionFeedback.textContent = t.quoteSuggestionEmpty;
+    return;
+  }
+
+  const user = ["karlosldb"].join("");
+  const host = ["hotmail", "com"].join(".");
+  const subject = encodeURIComponent("aware quote suggestion");
+  const body = encodeURIComponent(`Suggested quote:\n${suggestion}`);
+
+  quoteSuggestionFeedback.textContent = t.quoteSuggestionReady;
+  window.location.href = `mailto:${user}@${host}?subject=${subject}&body=${body}`;
 }
 
 function handleDeleteEvent() {
@@ -1550,6 +1615,7 @@ function renderTranslations() {
   setText("#screen-dashboard .section-row .mono-label", 0, t.overview);
   setText("#screen-dashboard .section-row .mono-label", 1, t.categorySpend);
   setText("#screen-dashboard .section-row .mono-label", 2, t.awareAnalysis);
+  setText("#screen-dashboard .section-row .mono-label", 3, t.quoteLab);
   setText("#screen-dashboard .section-row .subtle-text", 0, t.lastEvents(5));
   setText("#screen-dashboard .section-row .subtle-text", 1, t.lastEvents(5));
   setText(".dashboard-grid .summary-card span", 0, t.totalSpent);
@@ -1563,6 +1629,10 @@ function renderTranslations() {
   toggleVoiceButton.textContent = isListening ? t.stopVoice : t.startVoice;
   parseVoiceButton.textContent = t.parseVoice;
   useCurrentEventButton.textContent = t.useCurrentEvent;
+  document.querySelector("#quote-suggestion-title").textContent = t.quoteSuggestionTitle;
+  document.querySelector("#quote-suggestion-text").textContent = t.quoteSuggestionBody;
+  document.querySelector("#quote-suggestion-submit").textContent = t.quoteSuggestionSubmit;
+  quoteSuggestionInput.placeholder = t.quoteSuggestionPlaceholder;
 
   updateFormTranslations(t);
 }
