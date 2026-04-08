@@ -6,10 +6,12 @@ A mobile-first expense tracker for trips, nights out, events, activities, and ca
 
 I made AWARE. because I wanted a faster way to keep control of my spending when I go somewhere.
 
-The idea is simple: when you are on a trip, at a party, in a cabin, at a concert, or just out for the weekend, money disappears quickly and it is very easy to lose track of what the whole plan actually costs.
+The idea is simple:
+Do you know how much did you spend in your last event? You need to look at the bank and do calculus.
+
+When you are on a trip, at a party, in a cabin, at a concert, or just out for the weekend, money disappears quickly and it is very easy to lose track of what the whole plan actually costs.
 
 I wanted something that felt:
-
 - fast to open
 - easy to use on mobile
 - simple enough to log things in seconds
