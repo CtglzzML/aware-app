@@ -1252,27 +1252,18 @@ function escapeHtml(value) {
 }
 
 function setupPwa() {
-  const isLocalhost =
-    window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-
   if (!("serviceWorker" in navigator)) {
     return;
   }
 
   window.addEventListener("load", async () => {
-    if (isLocalhost) {
-      const registrations = await navigator.serviceWorker.getRegistrations();
-      await Promise.all(registrations.map((registration) => registration.unregister()));
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    await Promise.all(registrations.map((registration) => registration.unregister()));
 
-      if ("caches" in window) {
-        const cacheKeys = await window.caches.keys();
-        await Promise.all(cacheKeys.map((key) => window.caches.delete(key)));
-      }
-
-      return;
+    if ("caches" in window) {
+      const cacheKeys = await window.caches.keys();
+      await Promise.all(cacheKeys.map((key) => window.caches.delete(key)));
     }
-
-    navigator.serviceWorker.register("./sw.js").catch(() => {});
   });
 }
 
