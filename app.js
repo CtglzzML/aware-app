@@ -868,7 +868,7 @@ goEventsButton.addEventListener("click", () => showScreen("screen-events"));
 goDashboardButton.addEventListener("click", () => showScreen("screen-dashboard"));
 landingBrandButton.addEventListener("click", cycleAccentTheme);
 goDashboardFromEventsButton.addEventListener("click", () => showScreen("screen-dashboard"));
-goCreateButton.addEventListener("click", () => showScreen("screen-create-event"));
+goCreateButton?.addEventListener("click", () => showScreen("screen-create-event"));
 goAddExpenseButton.addEventListener("click", () => showScreen("screen-add-expense"));
 setCurrentEventButton.addEventListener("click", handleSetCurrentEvent);
 goVoiceExpenseButton.addEventListener("click", handleOpenVoiceExpense);
@@ -1620,7 +1620,9 @@ function renderTranslations() {
   goDashboardButton.textContent = t.landingCtaDashboard;
   document.querySelector("#landing-footer").textContent = t.landingFooter;
   goDashboardFromEventsButton.textContent = t.navDashboard;
-  goCreateButton.textContent = t.navNew;
+  if (goCreateButton) {
+    goCreateButton.textContent = t.navNew;
+  }
   dashboardEventsButton.textContent = t.navEvents;
   languageSelect.setAttribute("aria-label", t.navLanguage);
   currencySelect.setAttribute("aria-label", t.navCurrency);
