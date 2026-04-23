@@ -762,34 +762,71 @@ textarea {
   min-height: 72px;
   margin-top: -20px;
   padding-top: 12px;
-  background: rgba(var(--signal-rgb), 0.16);
-  border-color: rgba(var(--signal-rgb), 0.32);
+  background: transparent;
+  border-color: transparent;
   color: var(--text);
-  box-shadow:
-    inset 0 0 0 1px rgba(var(--signal-rgb), 0.08),
-    0 16px 30px rgba(0, 0, 0, 0.26);
+  box-shadow: none;
 }
 
-.bottom-nav-item-primary.is-active {
-  background: rgba(var(--signal-rgb), 0.22);
+#bottomNavAddButton {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+#bottomNavAddButton.is-current {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.bottom-nav-item-primary.is-active,
+.bottom-nav-item-primary.is-current {
+  background: transparent;
 }
 
 .bottom-nav-primary-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 42px;
+  height: 42px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(var(--signal-rgb), 0.42);
+  color: #0b0f0c;
   font-size: 1.35rem;
   line-height: 1;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+  transition:
+    background 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.bottom-nav-item-primary.is-current .bottom-nav-primary-icon {
+  background: rgba(var(--signal-rgb), 1);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.26);
+  transform: scale(1.04);
+}
+.bottom-nav-item-primary .bottom-nav-label {
+  color: rgba(255, 255, 255, 0.82);
+  transition: color 180ms ease;
+}
+
+.bottom-nav-item-primary.is-current .bottom-nav-label {
+  color: var(--text);
 }
 
 .bottom-nav-label {
   font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.01em;
+}
+
+#bottomNavAddButton {
+  min-width: auto;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .panel {

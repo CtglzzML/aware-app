@@ -1830,7 +1830,7 @@ function renderBottomNav() {
   const activeKey = getBottomNavKey();
   bottomNavHomeButton?.classList.toggle("is-active", activeKey === "home");
   bottomNavEventsButton?.classList.toggle("is-active", activeKey === "events");
-  bottomNavAddButton?.classList.toggle("is-active", activeKey === "add");
+  bottomNavAddButton?.classList.toggle("is-current", activeKey === "add");
   bottomNavSettingsButton?.classList.toggle("is-active", activeKey === "settings");
 }
 
