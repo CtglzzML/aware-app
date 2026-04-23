@@ -26,97 +26,167 @@
             <p class="eyebrow brand-label">aware</p>
           </div>
 
-          <section class="onboarding-card">
-            <p class="eyebrow onboarding-step-label" id="onboarding-step-label">First run · 1/3</p>
-
-            <div class="onboarding-progress" aria-hidden="true">
-              <span class="onboarding-progress-dot is-active"></span>
-              <span class="onboarding-progress-dot"></span>
-              <span class="onboarding-progress-dot"></span>
-            </div>
-
-            <h1 id="onboarding-title">Choose your language</h1>
+          <section class="onboarding-card" id="onboarding-card">
+            <p class="eyebrow onboarding-step-label" id="onboarding-step-label">First run</p>
+            <h1 id="onboarding-title">Set the tone for aware</h1>
             <p class="onboarding-text" id="onboarding-text">
-              This becomes the app language and the default voice language.
+              Choose your language, currency, and the color that should wake the app up.
             </p>
 
-            <div class="onboarding-panels">
-              <div class="onboarding-panel is-active" data-step="0">
-                <label class="stack-form onboarding-field">
-                  <span id="onboarding-language-label">Language</span>
-                  <select id="onboarding-language-select" aria-label="Language"></select>
-                </label>
+            <div class="onboarding-grid">
+              <label class="onboarding-field">
+                <span id="onboarding-language-label">Language</span>
+                <select id="onboarding-language-select" aria-label="Language"></select>
                 <p class="subtle-text onboarding-helper" id="onboarding-language-helper">
-                  You can change it later from settings.
+                  This also sets the default voice language.
                 </p>
-              </div>
+              </label>
 
-              <div class="onboarding-panel" data-step="1">
-                <label class="stack-form onboarding-field">
-                  <span id="onboarding-currency-label">Currency</span>
-                  <select id="onboarding-currency-select" aria-label="Currency"></select>
-                </label>
+              <label class="onboarding-field">
+                <span id="onboarding-currency-label">Currency</span>
+                <select id="onboarding-currency-select" aria-label="Currency"></select>
                 <p class="subtle-text onboarding-helper" id="onboarding-currency-helper">
                   Budgets and totals will start from here.
                 </p>
-              </div>
-
-              <div class="onboarding-panel" data-step="2">
-                <div class="onboarding-field">
-                  <span id="onboarding-accent-label">Accent</span>
-                  <div class="onboarding-accent-options" id="onboarding-accent-options"></div>
-                </div>
-                <p class="subtle-text onboarding-helper" id="onboarding-accent-helper">
-                  You can still tap aware on the landing page to change the color later.
-                </p>
-              </div>
+              </label>
             </div>
 
-            <div class="onboarding-preview">
-              <p class="mono-label" id="onboarding-preview-label">Current setup</p>
-              <div class="onboarding-preview-grid">
-                <div class="onboarding-preview-card">
-                  <span class="subtle-text" id="onboarding-preview-language-text">Language</span>
-                  <strong id="onboarding-preview-language-value">English</strong>
-                </div>
-                <div class="onboarding-preview-card">
-                  <span class="subtle-text" id="onboarding-preview-currency-text">Currency</span>
-                  <strong id="onboarding-preview-currency-value">USD US$</strong>
-                </div>
-                <div class="onboarding-preview-card">
-                  <span class="subtle-text" id="onboarding-preview-accent-text">Accent</span>
-                  <strong id="onboarding-preview-accent-value">Green</strong>
-                </div>
+            <div class="onboarding-field onboarding-field-accent">
+              <div class="onboarding-field-copy">
+                <span id="onboarding-accent-label">Accent</span>
+                <p class="subtle-text onboarding-helper" id="onboarding-accent-helper">
+                  Pick a color to wake aware up.
+                </p>
               </div>
+              <div class="onboarding-accent-options" id="onboarding-accent-options"></div>
             </div>
 
             <div class="onboarding-actions">
-              <button class="ghost-button hidden" id="onboarding-back-button" type="button">Back</button>
-              <button class="primary-button" id="onboarding-next-button" type="button">Continue</button>
+              <button class="primary-button" id="onboarding-next-button" type="button" disabled>
+                Pick a color first
+              </button>
             </div>
           </section>
         </div>
       </section>
 
-      <section class="screen screen-active landing-screen" id="screen-landing">
-        <div class="brand-lockup">
-          <button class="brand-button" id="landing-brand-button" type="button" aria-label="aware">
+      <section class="screen screen-active app-screen home-screen" id="screen-landing">
+        <header class="home-topbar">
+          <button class="brand-button home-brand-button" id="landing-brand-button" type="button" aria-label="aware">
             <span class="eyebrow brand-label">aware</span>
           </button>
-        </div>
-        <div class="landing-copy">
-          <div class="landing-quote-wrap">
-            <h1 id="landing-quote">At least you know how much cost that weekend</h1>
-          </div>
-          <div class="landing-bottom">
-            <div class="landing-actions">
-              <button class="primary-button" id="start-button" type="button">Add expense</button>
-              <button class="ghost-button" id="go-events-button" type="button">Go to my events</button>
-              <button class="ghost-button" id="go-dashboard-button" type="button">Dashboard</button>
+        </header>
+
+        <section class="panel home-panel">
+          <div class="home-current-event" id="home-current-event">
+            <div class="home-current-event-content" id="home-current-event-content">
+              <div class="section-row home-card-header">
+                <div>
+                  <p class="mono-label" id="home-current-event-label">Current event</p>
+                  <h1 class="home-current-event-name" id="home-current-event-name">No current event</h1>
+                </div>
+                <button class="ghost-button compact-button home-change-button" id="home-change-event-button" type="button">
+                  Change
+                </button>
+              </div>
+
+              <div class="summary-card home-current-total-card">
+                <span id="home-current-total-label">Total spent</span>
+                <strong id="home-current-event-total">$0</strong>
+              </div>
             </div>
-            <p class="landing-footer" id="landing-footer">Made with love in Schultz' Lab</p>
+
+            <div class="home-empty-state hidden" id="home-current-event-empty">
+              <p class="mono-label" id="home-empty-label">Current event</p>
+              <h1 class="home-current-event-name" id="home-empty-title">No current event</h1>
+              <p class="subtle-text" id="home-empty-text">
+                Create your first event to start adding expenses right away.
+              </p>
+              <button class="primary-button compact-button" id="home-create-event-button" type="button">
+                Create event
+              </button>
+            </div>
           </div>
-        </div>
+        </section>
+
+        <section class="panel home-panel">
+          <div class="section-row home-card-header">
+            <div>
+              <p class="mono-label" id="home-quick-add-label">Quick add</p>
+              <p class="subtle-text" id="home-quick-add-helper">Add straight into the current event.</p>
+            </div>
+          </div>
+
+          <form id="home-quick-add-form" class="stack-form">
+            <label>
+              <span id="home-quick-add-name-label">Expense name</span>
+              <input
+                id="home-quick-add-name"
+                type="text"
+                name="title"
+                placeholder="Dinner, taxi, snacks..."
+                required
+              />
+            </label>
+
+            <div class="home-quick-add-grid">
+              <label>
+                <span>Amount</span>
+                <input
+                  id="home-quick-add-amount"
+                  type="number"
+                  name="amount"
+                  min="0"
+                  step="0.01"
+                  placeholder="40"
+                  required
+                />
+              </label>
+
+              <label>
+                <span id="home-quick-add-category-label">Type of expense</span>
+                <select id="home-quick-add-category" name="category">
+                  <option value="">None</option>
+                  <option value="food">Food</option>
+                  <option value="travel">Travel</option>
+                  <option value="other">Other</option>
+                </select>
+              </label>
+            </div>
+
+            <button class="primary-button" id="home-quick-add-submit" type="submit">Save expense</button>
+          </form>
+
+          <p class="subtle-text home-quick-add-status" id="home-quick-add-status"></p>
+        </section>
+
+        <section class="panel home-panel">
+          <div class="section-row home-card-header">
+            <div>
+              <p class="mono-label" id="home-secondary-label">Overview</p>
+              <p class="subtle-text" id="home-secondary-helper">Keep an eye on the latest numbers.</p>
+            </div>
+          </div>
+
+          <div class="dashboard-grid home-dashboard-grid">
+            <div class="summary-card">
+              <span>Total spent</span>
+              <strong id="home-total-spent">$0</strong>
+            </div>
+            <div class="summary-card">
+              <span>Average event</span>
+              <strong id="home-average-spent">$0</strong>
+            </div>
+            <div class="summary-card">
+              <span>Biggest category</span>
+              <strong id="home-top-category">None</strong>
+            </div>
+            <div class="summary-card">
+              <span>Tracked events</span>
+              <strong id="home-event-count">0</strong>
+            </div>
+          </div>
+        </section>
       </section>
 
       <section class="screen app-screen" id="screen-dashboard">
@@ -179,16 +249,6 @@
           </div>
         </section>
 
-        <section class="settings-dock">
-          <label class="language-switcher" aria-label="Language">
-            <span class="language-icon state-icon" id="language-state-icon" aria-hidden="true">EN</span>
-            <select id="language-select" aria-label="Language"></select>
-          </label>
-          <label class="language-switcher" aria-label="Currency">
-            <span class="language-icon state-icon" id="currency-state-icon" aria-hidden="true">$</span>
-            <select id="currency-select" aria-label="Currency"></select>
-          </label>
-        </section>
       </section>
 
       <section class="screen app-screen" id="screen-events">
@@ -382,6 +442,67 @@
           </form>
         </section>
       </section>
+
+      <section class="screen app-screen" id="screen-settings">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow brand-label brand-home-link">aware</p>
+            <h2>Settings</h2>
+          </div>
+        </header>
+
+        <section class="panel">
+          <div class="section-row">
+            <p class="mono-label" id="settings-section-label">Preferences</p>
+          </div>
+
+          <div class="settings-list">
+            <label class="settings-field">
+              <span id="settings-language-label">Language</span>
+              <div class="settings-select-shell" aria-label="Language">
+                <div class="settings-select-value">
+                  <span class="language-icon state-icon" id="language-state-icon" aria-hidden="true">EN</span>
+                  <span class="settings-select-text" id="language-state-text">English</span>
+                </div>
+                <select id="language-select" aria-label="Language"></select>
+              </div>
+              <p class="subtle-text" id="settings-language-helper">
+                Choose the app language for all screens and labels.
+              </p>
+            </label>
+
+            <label class="settings-field">
+              <span id="settings-currency-label">Currency</span>
+              <div class="settings-select-shell" aria-label="Currency">
+                <div class="settings-select-value">
+                  <span class="language-icon state-icon" id="currency-state-icon" aria-hidden="true">$</span>
+                  <span class="settings-select-text" id="currency-state-text">USD US$</span>
+                </div>
+                <select id="currency-select" aria-label="Currency"></select>
+              </div>
+              <p class="subtle-text" id="settings-currency-helper">
+                Use this as the default currency for new events and totals.
+              </p>
+            </label>
+          </div>
+        </section>
+      </section>
+
+      <nav class="bottom-nav hidden" id="bottom-nav" aria-label="Primary">
+        <button class="bottom-nav-item" id="bottom-nav-home" type="button">
+          <span class="bottom-nav-label">Home</span>
+        </button>
+        <button class="bottom-nav-item" id="bottom-nav-events" type="button">
+          <span class="bottom-nav-label">Events</span>
+        </button>
+        <button class="bottom-nav-item bottom-nav-item-primary" id="bottom-nav-add" type="button">
+          <span class="bottom-nav-primary-icon" aria-hidden="true">+</span>
+          <span class="bottom-nav-label">Add</span>
+        </button>
+        <button class="bottom-nav-item" id="bottom-nav-settings" type="button">
+          <span class="bottom-nav-label">Settings</span>
+        </button>
+      </nav>
     </div>
 
     <dialog class="quote-modal" id="quote-suggestion-modal">

@@ -1,17 +1,40 @@
 const STORAGE_KEY = "spendscape-data-v3";
 
-const startButton = document.querySelector("#start-button");
 const goEventsButton = document.querySelector("#go-events-button");
 const goDashboardButton = document.querySelector("#go-dashboard-button");
 const landingBrandButton = document.querySelector("#landing-brand-button");
+const homeCreateEventButton = document.querySelector("#home-create-event-button");
+const homeChangeEventButton = document.querySelector("#home-change-event-button");
+const homeCurrentEventContent = document.querySelector("#home-current-event-content");
+const homeCurrentEventEmpty = document.querySelector("#home-current-event-empty");
+const homeCurrentEventName = document.querySelector("#home-current-event-name");
+const homeCurrentEventTotal = document.querySelector("#home-current-event-total");
+const homeQuickAddForm = document.querySelector("#home-quick-add-form");
+const homeQuickAddStatus = document.querySelector("#home-quick-add-status");
+const homeTotalSpent = document.querySelector("#home-total-spent");
+const homeAverageSpent = document.querySelector("#home-average-spent");
+const homeTopCategory = document.querySelector("#home-top-category");
+const homeEventCount = document.querySelector("#home-event-count");
+const settingsSectionLabel = document.querySelector("#settings-section-label");
+const settingsLanguageLabel = document.querySelector("#settings-language-label");
+const settingsCurrencyLabel = document.querySelector("#settings-currency-label");
+const settingsLanguageHelper = document.querySelector("#settings-language-helper");
+const settingsCurrencyHelper = document.querySelector("#settings-currency-helper");
 const languageSelect = document.querySelector("#language-select");
 const currencySelect = document.querySelector("#currency-select");
 const languageStateIcon = document.querySelector("#language-state-icon");
 const currencyStateIcon = document.querySelector("#currency-state-icon");
+const languageStateText = document.querySelector("#language-state-text");
+const currencyStateText = document.querySelector("#currency-state-text");
 const goDashboardFromEventsButton = document.querySelector("#go-dashboard-from-events-button");
 const goCreateButton = document.querySelector("#go-create-button");
 const goAddExpenseButton = document.querySelector("#go-add-expense-button");
 const dashboardEventsButton = document.querySelector("#dashboard-events-button");
+const bottomNav = document.querySelector("#bottom-nav");
+const bottomNavHomeButton = document.querySelector("#bottom-nav-home");
+const bottomNavEventsButton = document.querySelector("#bottom-nav-events");
+const bottomNavAddButton = document.querySelector("#bottom-nav-add");
+const bottomNavSettingsButton = document.querySelector("#bottom-nav-settings");
 const brandHomeLinks = document.querySelectorAll(".brand-home-link");
 const backButtons = document.querySelectorAll("[data-back]");
 const eventForm = document.querySelector("#event-form");
@@ -64,22 +87,14 @@ const onboardingAccentLabel = document.querySelector("#onboarding-accent-label")
 const onboardingLanguageHelper = document.querySelector("#onboarding-language-helper");
 const onboardingCurrencyHelper = document.querySelector("#onboarding-currency-helper");
 const onboardingAccentHelper = document.querySelector("#onboarding-accent-helper");
-const onboardingPreviewLabel = document.querySelector("#onboarding-preview-label");
-const onboardingPreviewLanguageText = document.querySelector("#onboarding-preview-language-text");
-const onboardingPreviewCurrencyText = document.querySelector("#onboarding-preview-currency-text");
-const onboardingPreviewAccentText = document.querySelector("#onboarding-preview-accent-text");
-const onboardingPreviewLanguageValue = document.querySelector("#onboarding-preview-language-value");
-const onboardingPreviewCurrencyValue = document.querySelector("#onboarding-preview-currency-value");
-const onboardingPreviewAccentValue = document.querySelector("#onboarding-preview-accent-value");
-const onboardingBackButton = document.querySelector("#onboarding-back-button");
 const onboardingNextButton = document.querySelector("#onboarding-next-button");
-const onboardingPanels = [...document.querySelectorAll(".onboarding-panel")];
-const onboardingProgressDots = [...document.querySelectorAll(".onboarding-progress-dot")];
+const addExpenseBackButton = document.querySelector('#screen-add-expense [data-back]');
 
 const LOCALE_KEY = "aware-locale-v1";
 const CURRENCY_KEY = "aware-currency-v1";
 const ACCENT_KEY = "aware-accent-v1";
 const ONBOARDING_KEY = "aware-onboarding-v1";
+const ONBOARDING_ACCENT_KEY = "aware-onboarding-accent-v1";
 
 const availableLocales = [
   { code: "en", label: "English", icon: "EN" },
@@ -795,190 +810,88 @@ const accentTranslations = {
 
 const onboardingTranslations = {
   en: {
-    stepLabel: (step, total) => `First run · ${step}/${total}`,
-    labels: {
-      language: "Language",
-      currency: "Currency",
-      accent: "Accent",
-      summary: "Current setup"
-    },
-    actions: {
-      back: "Back",
-      next: "Continue",
-      finish: "Enter aware"
-    },
-    steps: [
-      {
-        title: "Choose your language",
-        body: "This becomes the app language and the default voice language.",
-        helper: "You can change it later from settings."
-      },
-      {
-        title: "Pick your currency",
-        body: "Budgets, totals, and dashboard numbers will start from here.",
-        helper: "Each event can still keep its own currency."
-      },
-      {
-        title: "Choose the vibe",
-        body: "Pick the accent color that should greet you first every time aware opens.",
-        helper: "You can still tap aware on the landing page to cycle colors later."
-      }
-    ]
+    eyebrow: "First run",
+    title: "Set the tone for aware",
+    body: "Choose your language, currency, and the color that should wake the app up.",
+    language: "Language",
+    currency: "Currency",
+    accent: "Accent",
+    languageHelper: "This also sets the default voice language.",
+    currencyHelper: "Budgets and totals will start from here.",
+    accentHelperIdle: "Pick a color to wake aware up.",
+    accentHelperReady: "There it is. aware is awake.",
+    actionLocked: "Pick a color first",
+    actionReady: "Enter aware"
   },
   es: {
-    stepLabel: (step, total) => `Primera vez · ${step}/${total}`,
-    labels: {
-      language: "Idioma",
-      currency: "Moneda",
-      accent: "Color",
-      summary: "Configuracion actual"
-    },
-    actions: {
-      back: "Volver",
-      next: "Seguir",
-      finish: "Entrar en aware"
-    },
-    steps: [
-      {
-        title: "Elige tu idioma",
-        body: "Esto marca el idioma de la app y tambien el idioma base de voz.",
-        helper: "Luego lo puedes cambiar desde ajustes."
-      },
-      {
-        title: "Elige tu moneda",
-        body: "Presupuestos, totales y panel empezaran a leerse desde aqui.",
-        helper: "Cada evento puede seguir teniendo su propia moneda."
-      },
-      {
-        title: "Elige el vibe",
-        body: "Escoge el color con el que quieres que aware te reciba al abrirse.",
-        helper: "Despues podras tocar aware en la landing para ir cambiandolo."
-      }
-    ]
+    eyebrow: "Primera vez",
+    title: "Ajusta el tono de aware",
+    body: "Elige idioma, moneda y el color con el que quieres despertar la app.",
+    language: "Idioma",
+    currency: "Moneda",
+    accent: "Color",
+    languageHelper: "Esto tambien marca el idioma base de voz.",
+    currencyHelper: "Presupuestos y totales empezaran a leerse desde aqui.",
+    accentHelperIdle: "Pulsa un color para despertar aware.",
+    accentHelperReady: "Eso es. aware ya esta despierta.",
+    actionLocked: "Elige un color primero",
+    actionReady: "Entrar en aware"
   },
   fr: {
-    stepLabel: (step, total) => `Premier passage · ${step}/${total}`,
-    labels: {
-      language: "Langue",
-      currency: "Devise",
-      accent: "Accent",
-      summary: "Configuration actuelle"
-    },
-    actions: {
-      back: "Retour",
-      next: "Continuer",
-      finish: "Entrer dans aware"
-    },
-    steps: [
-      {
-        title: "Choisis ta langue",
-        body: "Elle devient la langue de l'app et la langue par defaut pour la voix.",
-        helper: "Tu pourras la changer plus tard dans les reglages."
-      },
-      {
-        title: "Choisis ta devise",
-        body: "Budgets, totaux et tableau de bord partiront de ce choix.",
-        helper: "Chaque event peut toujours garder sa propre devise."
-      },
-      {
-        title: "Choisis l'ambiance",
-        body: "Selectionne la couleur qui doit t'accueillir a chaque ouverture d'aware.",
-        helper: "Tu pourras ensuite toucher aware sur la landing pour changer la couleur."
-      }
-    ]
+    eyebrow: "Premier passage",
+    title: "Donne le ton a aware",
+    body: "Choisis la langue, la devise et la couleur qui doit reveiller l'app.",
+    language: "Langue",
+    currency: "Devise",
+    accent: "Accent",
+    languageHelper: "Cela devient aussi la langue par defaut pour la voix.",
+    currencyHelper: "Les budgets et les totaux partiront de ce choix.",
+    accentHelperIdle: "Choisis une couleur pour reveiller aware.",
+    accentHelperReady: "C'est bon. aware est reveillee.",
+    actionLocked: "Choisis d'abord une couleur",
+    actionReady: "Entrer dans aware"
   },
   de: {
-    stepLabel: (step, total) => `Erster Start · ${step}/${total}`,
-    labels: {
-      language: "Sprache",
-      currency: "Wahrung",
-      accent: "Akzent",
-      summary: "Aktuelles Setup"
-    },
-    actions: {
-      back: "Zuruck",
-      next: "Weiter",
-      finish: "aware offnen"
-    },
-    steps: [
-      {
-        title: "Wahle deine Sprache",
-        body: "Sie wird zur App-Sprache und auch zur Standardstimme.",
-        helper: "Du kannst das spater in den Einstellungen andern."
-      },
-      {
-        title: "Wahle deine Wahrung",
-        body: "Budgets, Summen und Dashboard starten mit dieser Basis.",
-        helper: "Jedes Event kann trotzdem seine eigene Wahrung behalten."
-      },
-      {
-        title: "Wahle den Vibe",
-        body: "Such dir die Akzentfarbe aus, die aware beim Offnen zuerst zeigen soll.",
-        helper: "Spater kannst du auf der Landing weiter auf aware tippen und Farben wechseln."
-      }
-    ]
+    eyebrow: "Erster Start",
+    title: "Gib aware den richtigen Ton",
+    body: "Wahle Sprache, Wahrung und die Farbe, mit der die App aufwachen soll.",
+    language: "Sprache",
+    currency: "Wahrung",
+    accent: "Akzent",
+    languageHelper: "Das legt auch die Standardsprache fur die Stimme fest.",
+    currencyHelper: "Budgets und Summen starten mit dieser Basis.",
+    accentHelperIdle: "Wahle eine Farbe, um aware zu wecken.",
+    accentHelperReady: "Da ist es. aware ist jetzt wach.",
+    actionLocked: "Wahle zuerst eine Farbe",
+    actionReady: "aware offnen"
   },
   it: {
-    stepLabel: (step, total) => `Primo avvio · ${step}/${total}`,
-    labels: {
-      language: "Lingua",
-      currency: "Valuta",
-      accent: "Accento",
-      summary: "Configurazione attuale"
-    },
-    actions: {
-      back: "Indietro",
-      next: "Continua",
-      finish: "Entra in aware"
-    },
-    steps: [
-      {
-        title: "Scegli la tua lingua",
-        body: "Diventa la lingua dell'app e anche la lingua base per la voce.",
-        helper: "Potrai cambiarla piu tardi dalle impostazioni."
-      },
-      {
-        title: "Scegli la tua valuta",
-        body: "Budget, totali e dashboard partiranno da questa scelta.",
-        helper: "Ogni evento potra comunque tenere la sua valuta."
-      },
-      {
-        title: "Scegli il vibe",
-        body: "Seleziona il colore che vuoi vedere per primo ogni volta che aware si apre.",
-        helper: "Poi potrai toccare aware nella landing per cambiare colore quando vuoi."
-      }
-    ]
+    eyebrow: "Primo avvio",
+    title: "Dai il tono ad aware",
+    body: "Scegli lingua, valuta e il colore con cui vuoi svegliare l'app.",
+    language: "Lingua",
+    currency: "Valuta",
+    accent: "Accento",
+    languageHelper: "Questo imposta anche la lingua base per la voce.",
+    currencyHelper: "Budget e totali partiranno da qui.",
+    accentHelperIdle: "Scegli un colore per svegliare aware.",
+    accentHelperReady: "Perfetto. aware si e svegliata.",
+    actionLocked: "Scegli prima un colore",
+    actionReady: "Entra in aware"
   },
   pt: {
-    stepLabel: (step, total) => `Primeira vez · ${step}/${total}`,
-    labels: {
-      language: "Idioma",
-      currency: "Moeda",
-      accent: "Cor",
-      summary: "Configuracao atual"
-    },
-    actions: {
-      back: "Voltar",
-      next: "Continuar",
-      finish: "Entrar no aware"
-    },
-    steps: [
-      {
-        title: "Escolhe o teu idioma",
-        body: "Isto define o idioma da app e tambem o idioma base da voz.",
-        helper: "Podes mudar depois nas definicoes."
-      },
-      {
-        title: "Escolhe a tua moeda",
-        body: "Orcamentos, totais e painel vao arrancar a partir daqui.",
-        helper: "Cada evento pode continuar a ter a sua propria moeda."
-      },
-      {
-        title: "Escolhe a vibe",
-        body: "Escolhe a cor com que queres que o aware te receba ao abrir.",
-        helper: "Depois podes tocar em aware na landing para ir trocando a cor."
-      }
-    ]
+    eyebrow: "Primeira vez",
+    title: "Define o tom do aware",
+    body: "Escolhe idioma, moeda e a cor com que queres acordar a app.",
+    language: "Idioma",
+    currency: "Moeda",
+    accent: "Cor",
+    languageHelper: "Isto tambem define o idioma base da voz.",
+    currencyHelper: "Orcamentos e totais vao arrancar daqui.",
+    accentHelperIdle: "Escolhe uma cor para acordar o aware.",
+    accentHelperReady: "Boa. o aware ja acordou.",
+    actionLocked: "Escolhe primeiro uma cor",
+    actionReady: "Entrar no aware"
   }
 };
 
@@ -1130,31 +1043,385 @@ const sarcasticInsights = {
   }
 };
 
+const translationAdditions = {
+  en: {
+    currentEvent: "Current event",
+    currentEventLabel: (name) => `Current event: ${name}`,
+    currentEventNone: "Current event: none",
+    navAdd: "Add",
+    navSettings: "Settings",
+    titleSettings: "Settings",
+    settingsSection: "Preferences",
+    settingsLanguageHelper: "Choose the app language for all screens and labels.",
+    settingsCurrencyHelper: "Use this as the default currency for new events and totals.",
+    currentEventActive: "Current event",
+    setAsCurrent: "Mark as current",
+    currentBadge: "Current",
+    addByVoice: "Add by voice",
+    voiceNote: "Voice note",
+    startVoice: "Start voice",
+    stopVoice: "Stop voice",
+    transcript: "Transcript",
+    transcriptPlaceholder: "I bought a protein bar for 3 euros",
+    parseVoice: "Parse voice note",
+    useCurrentEvent: "Use current event",
+    voiceHelp: "Speak naturally and I'll try to detect the title, amount, and category.",
+    changeAction: "Change",
+    quickAddLabel: "Quick add",
+    quickAddHelper: "Add straight into the current event.",
+    expenseName: "Expense name",
+    noCurrentEvent: "No current event",
+    noCurrentEventBody: "Create your first event to start adding expenses right away.",
+    quickAddLocked: "Create an event to unlock quick add.",
+    overviewHelper: "Keep an eye on the latest numbers.",
+    noCategory: "No category",
+    voiceNeedCurrentEvent: "Set a current event first.",
+    voiceUsingCurrentEvent: (name) => `Using ${name} as current event.`,
+    voiceNotSupported: "Voice capture is not supported here. Paste the transcript manually.",
+    voiceCaptured: "Voice note captured. Parse it when ready.",
+    voiceListening: "Listening...",
+    voiceChooseCurrentEvent: "Choose a current event before adding voice expenses.",
+    voiceEmptyTranscript: "Say something first or paste a voice transcript.",
+    voiceParsedSuccess: (category, amount) => `Ready to save in ${category} for ${amount}.`,
+    voiceParsedMissingAmount: "I detected the expense. Add the amount if I missed it."
+  },
+  es: {
+    currentEvent: "Evento actual",
+    currentEventLabel: (name) => `Evento actual: ${name}`,
+    currentEventNone: "Evento actual: ninguno",
+    navAdd: "Anadir",
+    navSettings: "Ajustes",
+    titleSettings: "Ajustes",
+    settingsSection: "Preferencias",
+    settingsLanguageHelper: "Elige el idioma de la app para todas las pantallas y textos.",
+    settingsCurrencyHelper: "Usa esto como moneda por defecto para eventos nuevos y totales.",
+    currentEventActive: "Evento actual",
+    setAsCurrent: "Marcar actual",
+    currentBadge: "Actual",
+    addByVoice: "Anadir por voz",
+    voiceNote: "Nota de voz",
+    startVoice: "Empezar voz",
+    stopVoice: "Parar voz",
+    transcript: "Transcripcion",
+    transcriptPlaceholder: "Me compre una barrita de proteina por 3 euros",
+    parseVoice: "Procesar voz",
+    useCurrentEvent: "Usar evento actual",
+    voiceHelp: "Habla natural y voy a intentar detectar concepto, importe y categoria.",
+    changeAction: "Cambiar",
+    quickAddLabel: "Anadir rapido",
+    quickAddHelper: "Anade directo al evento actual.",
+    expenseName: "Nombre del gasto",
+    noCurrentEvent: "Sin evento actual",
+    noCurrentEventBody: "Crea tu primer evento para empezar a anadir gastos al momento.",
+    quickAddLocked: "Crea un evento para desbloquear el anadido rapido.",
+    overviewHelper: "Sigue de cerca los ultimos numeros.",
+    noCategory: "Sin categoria",
+    voiceNeedCurrentEvent: "Primero marca un evento actual.",
+    voiceUsingCurrentEvent: (name) => `Usando ${name} como evento actual.`,
+    voiceNotSupported: "La captura por voz no esta disponible aqui. Pega la transcripcion manualmente.",
+    voiceCaptured: "Nota de voz capturada. Procesala cuando quieras.",
+    voiceListening: "Escuchando...",
+    voiceChooseCurrentEvent: "Elige un evento actual antes de anadir gastos por voz.",
+    voiceEmptyTranscript: "Di algo primero o pega una transcripcion de voz.",
+    voiceParsedSuccess: (category, amount) => `Listo para guardar en ${category} por ${amount}.`,
+    voiceParsedMissingAmount: "He detectado el gasto. Anade el importe si no lo he pillado."
+  },
+  fr: {
+    currentEvent: "Event actuel",
+    currentEventLabel: (name) => `Event actuel : ${name}`,
+    currentEventNone: "Event actuel : aucun",
+    navAdd: "Ajouter",
+    navSettings: "Reglages",
+    titleSettings: "Reglages",
+    settingsSection: "Preferences",
+    settingsLanguageHelper: "Choisis la langue de l'app pour tous les ecrans et libelles.",
+    settingsCurrencyHelper: "Utilise-la comme devise par defaut pour les nouveaux events et les totaux.",
+    currentEventActive: "Event actuel",
+    setAsCurrent: "Definir comme actuel",
+    currentBadge: "Actuel",
+    addByVoice: "Ajouter par voix",
+    voiceNote: "Note vocale",
+    startVoice: "Demarrer la voix",
+    stopVoice: "Arreter la voix",
+    transcript: "Transcription",
+    transcriptPlaceholder: "J'ai achete une barre proteinee pour 3 euros",
+    parseVoice: "Analyser la note vocale",
+    useCurrentEvent: "Utiliser l'event actuel",
+    voiceHelp: "Parle naturellement et j'essaierai de detecter le titre, le montant et la categorie.",
+    changeAction: "Changer",
+    quickAddLabel: "Ajout rapide",
+    quickAddHelper: "Ajoute directement dans l'event actuel.",
+    expenseName: "Nom de la depense",
+    noCurrentEvent: "Aucun event actuel",
+    noCurrentEventBody: "Cree ton premier event pour commencer a ajouter des depenses tout de suite.",
+    quickAddLocked: "Cree un event pour debloquer l'ajout rapide.",
+    overviewHelper: "Garde un oeil sur les derniers chiffres.",
+    noCategory: "Sans categorie",
+    voiceNeedCurrentEvent: "Definis d'abord un event actuel.",
+    voiceUsingCurrentEvent: (name) => `${name} est utilise comme event actuel.`,
+    voiceNotSupported: "La capture vocale n'est pas prise en charge ici. Colle la transcription manuellement.",
+    voiceCaptured: "Note vocale capturee. Analyse-la quand tu veux.",
+    voiceListening: "Ecoute en cours...",
+    voiceChooseCurrentEvent: "Choisis un event actuel avant d'ajouter une depense vocale.",
+    voiceEmptyTranscript: "Dis quelque chose d'abord ou colle une transcription vocale.",
+    voiceParsedSuccess: (category, amount) => `Pret a enregistrer dans ${category} pour ${amount}.`,
+    voiceParsedMissingAmount: "J'ai detecte la depense. Ajoute le montant si je l'ai manque."
+  },
+  de: {
+    currentEvent: "Aktuelles Event",
+    currentEventLabel: (name) => `Aktuelles Event: ${name}`,
+    currentEventNone: "Aktuelles Event: keines",
+    navAdd: "Hinzufugen",
+    navSettings: "Einstellungen",
+    titleSettings: "Einstellungen",
+    settingsSection: "Einstellungen",
+    settingsLanguageHelper: "Wahle die App-Sprache fur alle Ansichten und Beschriftungen.",
+    settingsCurrencyHelper: "Nutze diese Wahrung als Standard fur neue Events und Summen.",
+    currentEventActive: "Aktuelles Event",
+    setAsCurrent: "Als aktuell markieren",
+    currentBadge: "Aktuell",
+    addByVoice: "Per Sprache hinzufugen",
+    voiceNote: "Sprachnotiz",
+    startVoice: "Sprache starten",
+    stopVoice: "Sprache stoppen",
+    transcript: "Transkript",
+    transcriptPlaceholder: "Ich habe einen Proteinriegel fur 3 Euro gekauft",
+    parseVoice: "Sprachnotiz auswerten",
+    useCurrentEvent: "Aktuelles Event verwenden",
+    voiceHelp: "Sprich ganz normal, ich versuche Titel, Betrag und Kategorie zu erkennen.",
+    changeAction: "Wechseln",
+    quickAddLabel: "Schnell erfassen",
+    quickAddHelper: "Direkt im aktuellen Event speichern.",
+    expenseName: "Name der Ausgabe",
+    noCurrentEvent: "Kein aktuelles Event",
+    noCurrentEventBody: "Erstelle dein erstes Event, um sofort Ausgaben hinzuzufugen.",
+    quickAddLocked: "Erstelle ein Event, um Schnell erfassen zu aktivieren.",
+    overviewHelper: "Behalte die letzten Zahlen im Blick.",
+    noCategory: "Keine Kategorie",
+    voiceNeedCurrentEvent: "Lege zuerst ein aktuelles Event fest.",
+    voiceUsingCurrentEvent: (name) => `${name} wird als aktuelles Event verwendet.`,
+    voiceNotSupported: "Spracheingabe wird hier nicht unterstutzt. Fuge die Transkription manuell ein.",
+    voiceCaptured: "Sprachnotiz erfasst. Analysiere sie, wenn du bereit bist.",
+    voiceListening: "Ich hore zu...",
+    voiceChooseCurrentEvent: "Wahle ein aktuelles Event, bevor du Sprachausgaben hinzufugst.",
+    voiceEmptyTranscript: "Sag zuerst etwas oder fuge eine Sprachtranskription ein.",
+    voiceParsedSuccess: (category, amount) => `Bereit zum Speichern in ${category} fur ${amount}.`,
+    voiceParsedMissingAmount: "Ich habe die Ausgabe erkannt. Trag den Betrag ein, falls er fehlt."
+  },
+  it: {
+    currentEvent: "Evento attuale",
+    currentEventLabel: (name) => `Evento attuale: ${name}`,
+    currentEventNone: "Evento attuale: nessuno",
+    navAdd: "Aggiungi",
+    navSettings: "Impostazioni",
+    titleSettings: "Impostazioni",
+    settingsSection: "Preferenze",
+    settingsLanguageHelper: "Scegli la lingua dell'app per tutte le schermate e le etichette.",
+    settingsCurrencyHelper: "Usala come valuta predefinita per nuovi eventi e totali.",
+    currentEventActive: "Evento attuale",
+    setAsCurrent: "Imposta attuale",
+    currentBadge: "Attuale",
+    addByVoice: "Aggiungi con la voce",
+    voiceNote: "Nota vocale",
+    startVoice: "Avvia voce",
+    stopVoice: "Ferma voce",
+    transcript: "Trascrizione",
+    transcriptPlaceholder: "Ho comprato una barretta proteica per 3 euro",
+    parseVoice: "Analizza nota vocale",
+    useCurrentEvent: "Usa evento attuale",
+    voiceHelp: "Parla in modo naturale e provero a rilevare titolo, importo e categoria.",
+    changeAction: "Cambia",
+    quickAddLabel: "Aggiunta rapida",
+    quickAddHelper: "Aggiungi subito nell'evento attuale.",
+    expenseName: "Nome spesa",
+    noCurrentEvent: "Nessun evento attuale",
+    noCurrentEventBody: "Crea il tuo primo evento per iniziare subito ad aggiungere spese.",
+    quickAddLocked: "Crea un evento per sbloccare l'aggiunta rapida.",
+    overviewHelper: "Tieni d'occhio gli ultimi numeri.",
+    noCategory: "Nessuna categoria",
+    voiceNeedCurrentEvent: "Imposta prima un evento attuale.",
+    voiceUsingCurrentEvent: (name) => `Uso ${name} come evento attuale.`,
+    voiceNotSupported: "La registrazione vocale non e supportata qui. Incolla la trascrizione manualmente.",
+    voiceCaptured: "Nota vocale acquisita. Analizzala quando vuoi.",
+    voiceListening: "In ascolto...",
+    voiceChooseCurrentEvent: "Scegli un evento attuale prima di aggiungere spese vocali.",
+    voiceEmptyTranscript: "Di qualcosa prima oppure incolla una trascrizione vocale.",
+    voiceParsedSuccess: (category, amount) => `Pronto a salvare in ${category} per ${amount}.`,
+    voiceParsedMissingAmount: "Ho rilevato la spesa. Aggiungi l'importo se mi e sfuggito."
+  },
+  pt: {
+    currentEvent: "Evento atual",
+    currentEventLabel: (name) => `Evento atual: ${name}`,
+    currentEventNone: "Evento atual: nenhum",
+    navAdd: "Adicionar",
+    navSettings: "Definicoes",
+    titleSettings: "Definicoes",
+    settingsSection: "Preferencias",
+    settingsLanguageHelper: "Escolhe o idioma da app para todos os ecras e etiquetas.",
+    settingsCurrencyHelper: "Usa isto como moeda predefinida para novos eventos e totais.",
+    currentEventActive: "Evento atual",
+    setAsCurrent: "Marcar atual",
+    currentBadge: "Atual",
+    addByVoice: "Adicionar por voz",
+    voiceNote: "Nota de voz",
+    startVoice: "Comecar voz",
+    stopVoice: "Parar voz",
+    transcript: "Transcricao",
+    transcriptPlaceholder: "Comprei uma barra proteica por 3 euros",
+    parseVoice: "Analisar nota de voz",
+    useCurrentEvent: "Usar evento atual",
+    voiceHelp: "Fala naturalmente e eu vou tentar detetar o titulo, o valor e a categoria.",
+    changeAction: "Mudar",
+    quickAddLabel: "Adicao rapida",
+    quickAddHelper: "Adiciona direto no evento atual.",
+    expenseName: "Nome do gasto",
+    noCurrentEvent: "Sem evento atual",
+    noCurrentEventBody: "Cria o teu primeiro evento para comecar logo a adicionar gastos.",
+    quickAddLocked: "Cria um evento para desbloquear a adicao rapida.",
+    overviewHelper: "Acompanha de perto os numeros mais recentes.",
+    noCategory: "Sem categoria",
+    voiceNeedCurrentEvent: "Define primeiro um evento atual.",
+    voiceUsingCurrentEvent: (name) => `A usar ${name} como evento atual.`,
+    voiceNotSupported: "A captura por voz nao e suportada aqui. Cola a transcricao manualmente.",
+    voiceCaptured: "Nota de voz capturada. Faz a analise quando quiseres.",
+    voiceListening: "A ouvir...",
+    voiceChooseCurrentEvent: "Escolhe um evento atual antes de adicionar gastos por voz.",
+    voiceEmptyTranscript: "Diz alguma coisa primeiro ou cola uma transcricao de voz.",
+    voiceParsedSuccess: (category, amount) => `Pronto para guardar em ${category} por ${amount}.`,
+    voiceParsedMissingAmount: "Detetei o gasto. Adiciona o valor se eu o falhei."
+  }
+};
+
+const resolvedTranslations = resolveLocaleMap(translations, translationAdditions);
+const resolvedOnboardingTranslations = resolveLocaleMap(onboardingTranslations);
+const resolvedAccentTranslations = resolveLocaleMap(accentTranslations);
+
+validateLocaleCoverage("translations", translations, translationAdditions);
+validateLocaleCoverage("onboardingTranslations", onboardingTranslations);
+validateLocaleCoverage("accentTranslations", accentTranslations);
+
+function resolveLocaleMap(baseMap, additionsMap = {}) {
+  return availableLocales.reduce((acc, locale) => {
+    acc[locale.code] = mergeDeep(
+      mergeDeep(baseMap.en ?? {}, additionsMap.en ?? {}),
+      mergeDeep(baseMap[locale.code] ?? {}, additionsMap[locale.code] ?? {})
+    );
+    return acc;
+  }, {});
+}
+
+function mergeDeep(base, override) {
+  if (typeof override === "undefined") {
+    return cloneValue(base);
+  }
+
+  if (!isPlainObject(base) || !isPlainObject(override)) {
+    return cloneValue(override);
+  }
+
+  const merged = {};
+  const keys = new Set([...Object.keys(base), ...Object.keys(override)]);
+
+  for (const key of keys) {
+    if (key in override) {
+      merged[key] = key in base ? mergeDeep(base[key], override[key]) : cloneValue(override[key]);
+    } else {
+      merged[key] = cloneValue(base[key]);
+    }
+  }
+
+  return merged;
+}
+
+function cloneValue(value) {
+  if (Array.isArray(value)) {
+    return [...value];
+  }
+
+  if (isPlainObject(value)) {
+    return Object.keys(value).reduce((acc, key) => {
+      acc[key] = cloneValue(value[key]);
+      return acc;
+    }, {});
+  }
+
+  return value;
+}
+
+function isPlainObject(value) {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function validateLocaleCoverage(label, baseMap, additionsMap = {}) {
+  const englishShape = mergeDeep(baseMap.en ?? {}, additionsMap.en ?? {});
+
+  for (const locale of availableLocales) {
+    const localeShape = mergeDeep(baseMap[locale.code] ?? {}, additionsMap[locale.code] ?? {});
+    const missing = [];
+    collectMissingKeys(englishShape, localeShape, "", missing);
+
+    if (missing.length) {
+      console.warn(`[aware i18n] ${label} missing keys for ${locale.code}: ${missing.join(", ")}`);
+    }
+  }
+}
+
+function collectMissingKeys(reference, candidate, prefix, missing) {
+  if (!isPlainObject(reference)) {
+    return;
+  }
+
+  const candidateObject = isPlainObject(candidate) ? candidate : {};
+
+  for (const key of Object.keys(reference)) {
+    const nextPrefix = prefix ? `${prefix}.${key}` : key;
+
+    if (!(key in candidateObject)) {
+      missing.push(nextPrefix);
+      continue;
+    }
+
+    if (isPlainObject(reference[key])) {
+      collectMissingKeys(reference[key], candidateObject[key], nextPrefix, missing);
+    }
+  }
+}
+
 let state = loadState();
 let hasCompletedOnboarding = loadOnboardingState();
+let hasPickedOnboardingAccent = loadOnboardingAccentState();
 let currentScreenId = hasCompletedOnboarding ? "screen-landing" : "screen-onboarding";
-let selectedEventId = state.events[0]?.id ?? null;
+let selectedEventId = state.currentEventId ?? state.events[0]?.id ?? null;
 let currentQuoteIndex = -1;
 let quoteTypingFrame = null;
 let quoteTypingTimeout = null;
 let currentLocale = loadLocale();
 let currentCurrency = loadCurrency();
-let currentAccent = loadAccent();
+let currentAccent = hasCompletedOnboarding || hasPickedOnboardingAccent ? loadAccent() : null;
 let speechRecognition = null;
 let isListening = false;
-let onboardingStepIndex = 0;
+let awakeningTimeout = null;
+let voiceFeedbackState = { key: "voiceHelp", args: [] };
+let quoteSuggestionFeedbackState = { key: "", args: [] };
+let addExpenseBackTarget = "screen-landing";
 
-startButton.addEventListener("click", handlePrimaryAction);
-goEventsButton.addEventListener("click", () => showScreen("screen-events"));
-goDashboardButton.addEventListener("click", () => showScreen("screen-dashboard"));
-landingBrandButton.addEventListener("click", cycleAccentTheme);
+goEventsButton?.addEventListener("click", () => showScreen("screen-events"));
+goDashboardButton?.addEventListener("click", () => showScreen("screen-dashboard"));
+landingBrandButton?.addEventListener("click", cycleAccentTheme);
+homeCreateEventButton?.addEventListener("click", () => showScreen("screen-create-event"));
+homeChangeEventButton?.addEventListener("click", handleChangeCurrentEvent);
+homeQuickAddForm?.addEventListener("submit", handleHomeQuickAdd);
 goDashboardFromEventsButton.addEventListener("click", () => showScreen("screen-dashboard"));
 goCreateButton?.addEventListener("click", () => showScreen("screen-create-event"));
-goAddExpenseButton.addEventListener("click", () => showScreen("screen-add-expense"));
+goAddExpenseButton.addEventListener("click", () => openAddExpenseScreen("screen-event-detail"));
 setCurrentEventButton.addEventListener("click", handleSetCurrentEvent);
 goVoiceExpenseButton.addEventListener("click", handleOpenVoiceExpense);
 dashboardEventsButton.addEventListener("click", () => showScreen("screen-events"));
-landingQuote.addEventListener("click", rotateLandingQuote);
+bottomNavHomeButton?.addEventListener("click", () => showScreen("screen-landing"));
+bottomNavEventsButton?.addEventListener("click", () => showScreen("screen-events"));
+bottomNavAddButton?.addEventListener("click", handleBottomNavAdd);
+bottomNavSettingsButton?.addEventListener("click", () => showScreen("screen-settings"));
+landingQuote?.addEventListener("click", rotateLandingQuote);
 brandHomeLinks.forEach((link) => {
   link.addEventListener("click", () => showScreen("screen-landing"));
 });
@@ -1174,7 +1441,6 @@ quoteSuggestionClose?.addEventListener("click", closeQuoteSuggestionModal);
 dashboardInsightCard?.addEventListener("click", openQuoteSuggestionModal);
 onboardingLanguageSelect?.addEventListener("change", handleOnboardingLocaleChange);
 onboardingCurrencySelect?.addEventListener("change", handleOnboardingCurrencyChange);
-onboardingBackButton?.addEventListener("click", handleOnboardingBack);
 onboardingNextButton?.addEventListener("click", handleOnboardingNext);
 
 setupPwa();
@@ -1183,35 +1449,53 @@ applyAccentTheme();
 setLandingQuote();
 render();
 
+function createInitialState() {
+  return { events: [], currentEventId: null };
+}
+
 function loadState() {
   const saved = readStorage(STORAGE_KEY);
   if (!saved) {
-    return { events: [], currentEventIds: [] };
+    return createInitialState();
   }
 
   try {
     const parsed = JSON.parse(saved);
-    const currentEventIds = Array.isArray(parsed.currentEventIds)
-      ? parsed.currentEventIds.filter((id) => typeof id === "string")
-      : typeof parsed.currentEventId === "string"
-        ? [parsed.currentEventId]
-        : [];
+    const events = Array.isArray(parsed.events)
+      ? parsed.events.map((event) => ({
+          ...event,
+          expenses: Array.isArray(event.expenses) ? event.expenses : [],
+          currency:
+            typeof event.currency === "string" &&
+            availableCurrencies.some((currency) => currency.code === event.currency)
+              ? event.currency
+              : "USD",
+        }))
+      : [];
+    const currentEventId = normalizeCurrentEventId(
+      events,
+      typeof parsed.currentEventId === "string"
+        ? parsed.currentEventId
+        : Array.isArray(parsed.currentEventIds)
+          ? parsed.currentEventIds.find((id) => typeof id === "string") ?? null
+          : null
+    );
+
     return {
-      events: Array.isArray(parsed.events)
-        ? parsed.events.map((event) => ({
-            ...event,
-            currency:
-              typeof event.currency === "string" &&
-              availableCurrencies.some((currency) => currency.code === event.currency)
-                ? event.currency
-                : "USD",
-          }))
-        : [],
-      currentEventIds
+      events,
+      currentEventId
     };
   } catch {
-    return { events: [], currentEventIds: [] };
+    return createInitialState();
   }
+}
+
+function normalizeCurrentEventId(events, currentEventId) {
+  if (typeof currentEventId === "string" && events.some((event) => event.id === currentEventId)) {
+    return currentEventId;
+  }
+
+  return events[0]?.id ?? null;
 }
 
 function loadLocale() {
@@ -1226,15 +1510,33 @@ function loadCurrency() {
 
 function loadAccent() {
   const saved = readStorage(ACCENT_KEY);
-  return availableAccents.some((accent) => accent.code === saved) ? saved : "green";
+  return availableAccents.some((accent) => accent.code === saved) ? saved : null;
 }
 
 function loadOnboardingState() {
   return readStorage(ONBOARDING_KEY) === "done";
 }
 
+function loadOnboardingAccentState() {
+  return readStorage(ONBOARDING_ACCENT_KEY) === "picked";
+}
+
 function saveState() {
-  writeStorage(STORAGE_KEY, JSON.stringify(state));
+  writeStorage(
+    STORAGE_KEY,
+    JSON.stringify({
+      events: state.events,
+      currentEventId: normalizeCurrentEventId(state.events, state.currentEventId)
+    })
+  );
+}
+
+function generateId() {
+  if (globalThis.crypto && typeof globalThis.crypto.randomUUID === "function") {
+    return globalThis.crypto.randomUUID();
+  }
+
+  return `aware-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
 }
 
 function setLocale(localeCode, { persist = true } = {}) {
@@ -1291,7 +1593,7 @@ function handleCreateEvent(event) {
   }
 
   const newEvent = {
-    id: crypto.randomUUID(),
+    id: generateId(),
     name,
     type: formData.get("type").toString(),
     budget: Number(formData.get("budget")) || 0,
@@ -1302,24 +1604,88 @@ function handleCreateEvent(event) {
 
   state.events.unshift(newEvent);
   selectedEventId = newEvent.id;
-  state.currentEventIds = [newEvent.id, ...state.currentEventIds.filter((id) => id !== newEvent.id)];
+  state.currentEventId = newEvent.id;
   saveState();
   event.currentTarget.reset();
-  showScreen("screen-event-detail");
+  showScreen("screen-landing");
 }
 
-function handlePrimaryAction() {
+function handleChangeCurrentEvent() {
   const currentEvent = getCurrentEvent();
-  const fallbackEvent = state.events[0] ?? null;
-  const targetEvent = currentEvent ?? fallbackEvent;
 
-  if (!targetEvent) {
+  if (currentEvent) {
+    selectedEventId = currentEvent.id;
+    showScreen("screen-events");
+    return;
+  }
+
+  if (state.events.length) {
+    selectedEventId = state.events[0].id;
+    showScreen("screen-events");
+    return;
+  }
+
+  showScreen("screen-create-event");
+}
+
+function openAddExpenseScreen(backTarget = "screen-landing") {
+  const currentEvent = getCurrentEvent();
+
+  if (!currentEvent) {
     showScreen("screen-create-event");
     return;
   }
 
-  selectedEventId = targetEvent.id;
+  selectedEventId = currentEvent.id;
+  addExpenseBackTarget = backTarget;
+  if (addExpenseBackButton) {
+    addExpenseBackButton.dataset.back = addExpenseBackTarget;
+  }
   showScreen("screen-add-expense");
+}
+
+function handleBottomNavAdd() {
+  openAddExpenseScreen("screen-landing");
+}
+
+function addExpenseToEvent(targetEvent, expense) {
+  targetEvent.expenses.unshift({
+    id: generateId(),
+    title: expense.title,
+    category: expense.category,
+    amount: expense.amount,
+    createdAt: Date.now(),
+  });
+}
+
+function handleHomeQuickAdd(event) {
+  event.preventDefault();
+  const currentEvent = getCurrentEvent();
+
+  if (!currentEvent) {
+    showScreen("screen-create-event");
+    return;
+  }
+
+  const formData = new FormData(event.currentTarget);
+  const title = formData.get("title").toString().trim();
+  const amount = Number(formData.get("amount")) || 0;
+
+  if (!title || amount <= 0) {
+    return;
+  }
+
+  addExpenseToEvent(currentEvent, {
+    title,
+    category: formData.get("category").toString() || "other",
+    amount,
+  });
+
+  selectedEventId = currentEvent.id;
+  saveState();
+  event.currentTarget.reset();
+  homeQuickAddForm?.elements.namedItem("title")?.focus();
+  render();
 }
 
 function handleAddExpense(event) {
@@ -1337,12 +1703,10 @@ function handleAddExpense(event) {
     return;
   }
 
-  selectedEvent.expenses.unshift({
-    id: crypto.randomUUID(),
+  addExpenseToEvent(selectedEvent, {
     title: title || "",
-    category: formData.get("category").toString(),
+    category: formData.get("category").toString() || "other",
     amount,
-    createdAt: Date.now(),
   });
 
   saveState();
@@ -1352,11 +1716,10 @@ function handleAddExpense(event) {
 
 function handleQuoteSuggestion(event) {
   event.preventDefault();
-  const t = getCopy();
   const suggestion = quoteSuggestionInput.value.trim();
 
   if (!suggestion) {
-    quoteSuggestionFeedback.textContent = t.quoteSuggestionEmpty;
+    setQuoteSuggestionFeedbackState("quoteSuggestionEmpty");
     return;
   }
 
@@ -1365,12 +1728,12 @@ function handleQuoteSuggestion(event) {
   const subject = encodeURIComponent("aware quote suggestion");
   const body = encodeURIComponent(`Suggested quote:\n${suggestion}`);
 
-  quoteSuggestionFeedback.textContent = t.quoteSuggestionReady;
+  setQuoteSuggestionFeedbackState("quoteSuggestionReady");
   window.location.href = `mailto:${user}@${host}?subject=${subject}&body=${body}`;
 }
 
 function openQuoteSuggestionModal() {
-  quoteSuggestionFeedback.textContent = "";
+  clearQuoteSuggestionFeedback();
   if (typeof quoteSuggestionModal?.showModal === "function") {
     quoteSuggestionModal.showModal();
     return;
@@ -1399,8 +1762,11 @@ function handleDeleteEvent() {
   }
 
   state.events = state.events.filter((event) => event.id !== selectedEvent.id);
-  selectedEventId = state.events[0]?.id ?? null;
-  state.currentEventIds = state.currentEventIds.filter((id) => id !== selectedEvent.id);
+  state.currentEventId = normalizeCurrentEventId(
+    state.events,
+    state.currentEventId === selectedEvent.id ? null : state.currentEventId
+  );
+  selectedEventId = state.currentEventId ?? state.events[0]?.id ?? null;
   saveState();
 
   if (state.events.length) {
@@ -1416,7 +1782,60 @@ function showScreen(screenId) {
   render();
 }
 
+function getBottomNavKey(screenId = currentScreenId) {
+  if (
+    screenId === "screen-events" ||
+    screenId === "screen-event-detail" ||
+    screenId === "screen-create-event"
+  ) {
+    return "events";
+  }
+
+  if (screenId === "screen-add-expense") {
+    return "add";
+  }
+
+  if (screenId === "screen-settings") {
+    return "settings";
+  }
+
+  return "home";
+}
+
+function syncSelectedEventId() {
+  state.currentEventId = normalizeCurrentEventId(state.events, state.currentEventId);
+
+  if (!state.events.length) {
+    selectedEventId = null;
+    return;
+  }
+
+  if (!state.events.some((event) => event.id === selectedEventId)) {
+    selectedEventId = state.currentEventId ?? state.events[0].id;
+  }
+}
+
+function renderBottomNav() {
+  if (!bottomNav) {
+    return;
+  }
+
+  const shouldHide = currentScreenId === "screen-onboarding";
+  bottomNav.classList.toggle("hidden", shouldHide);
+
+  if (shouldHide) {
+    return;
+  }
+
+  const activeKey = getBottomNavKey();
+  bottomNavHomeButton?.classList.toggle("is-active", activeKey === "home");
+  bottomNavEventsButton?.classList.toggle("is-active", activeKey === "events");
+  bottomNavAddButton?.classList.toggle("is-active", activeKey === "add");
+  bottomNavSettingsButton?.classList.toggle("is-active", activeKey === "settings");
+}
+
 function render() {
+  syncSelectedEventId();
   renderTranslations();
   renderOnboarding();
 
@@ -1424,10 +1843,12 @@ function render() {
     screen.classList.toggle("screen-active", screen.id === currentScreenId);
   }
 
+  renderHome();
   renderEvents();
   renderDetail();
   renderDashboard();
   renderVoicePanel();
+  renderBottomNav();
 }
 
 function renderOnboarding() {
@@ -1436,50 +1857,30 @@ function renderOnboarding() {
   }
 
   const copy = getOnboardingCopy();
-  const steps = copy.steps;
-  const currentStep = steps[onboardingStepIndex] ?? steps[0];
+  onboardingStepLabel.textContent = copy.eyebrow;
+  onboardingTitle.textContent = copy.title;
+  onboardingText.textContent = copy.body;
 
-  onboardingStepLabel.textContent = copy.stepLabel(onboardingStepIndex + 1, steps.length);
-  onboardingTitle.textContent = currentStep.title;
-  onboardingText.textContent = currentStep.body;
-
-  onboardingLanguageLabel.textContent = copy.labels.language;
-  onboardingCurrencyLabel.textContent = copy.labels.currency;
-  onboardingAccentLabel.textContent = copy.labels.accent;
-  onboardingLanguageHelper.textContent = steps[0].helper;
-  onboardingCurrencyHelper.textContent = steps[1].helper;
-  onboardingAccentHelper.textContent = steps[2].helper;
-  onboardingPreviewLabel.textContent = copy.labels.summary;
-  onboardingPreviewLanguageText.textContent = copy.labels.language;
-  onboardingPreviewCurrencyText.textContent = copy.labels.currency;
-  onboardingPreviewAccentText.textContent = copy.labels.accent;
-  onboardingPreviewLanguageValue.textContent =
-    availableLocales.find((locale) => locale.code === currentLocale)?.label ?? "English";
-  onboardingPreviewCurrencyValue.textContent =
-    availableCurrencies.find((currency) => currency.code === currentCurrency)?.label ?? "USD US$";
-  onboardingPreviewAccentValue.textContent = translateAccent(currentAccent);
+  onboardingLanguageLabel.textContent = copy.language;
+  onboardingCurrencyLabel.textContent = copy.currency;
+  onboardingAccentLabel.textContent = copy.accent;
+  onboardingLanguageHelper.textContent = copy.languageHelper;
+  onboardingCurrencyHelper.textContent = copy.currencyHelper;
+  onboardingAccentHelper.textContent = currentAccent ? copy.accentHelperReady : copy.accentHelperIdle;
 
   if (onboardingLanguageSelect) {
     onboardingLanguageSelect.value = currentLocale;
-    onboardingLanguageSelect.setAttribute("aria-label", copy.labels.language);
+    onboardingLanguageSelect.setAttribute("aria-label", copy.language);
   }
 
   if (onboardingCurrencySelect) {
     onboardingCurrencySelect.value = currentCurrency;
-    onboardingCurrencySelect.setAttribute("aria-label", copy.labels.currency);
+    onboardingCurrencySelect.setAttribute("aria-label", copy.currency);
   }
 
-  onboardingPanels.forEach((panel, index) => {
-    panel.classList.toggle("is-active", index === onboardingStepIndex);
-  });
-
-  onboardingProgressDots.forEach((dot, index) => {
-    dot.classList.toggle("is-active", index <= onboardingStepIndex);
-  });
-
-  onboardingBackButton.classList.toggle("hidden", onboardingStepIndex === 0);
-  onboardingBackButton.textContent = copy.actions.back;
-  onboardingNextButton.textContent = onboardingStepIndex === steps.length - 1 ? copy.actions.finish : copy.actions.next;
+  onboardingNextButton.disabled = !currentAccent;
+  onboardingNextButton.textContent = currentAccent ? copy.actionReady : copy.actionLocked;
+  document.body.classList.toggle("theme-neutral", !hasCompletedOnboarding && !currentAccent);
 
   renderOnboardingAccentOptions();
 }
@@ -1507,10 +1908,41 @@ function renderOnboardingAccentOptions() {
 
   onboardingAccentOptions.querySelectorAll("[data-onboarding-accent]").forEach((button) => {
     button.addEventListener("click", () => {
-      setAccent(button.dataset.onboardingAccent);
+      handleOnboardingAccentSelect(button.dataset.onboardingAccent);
       render();
     });
   });
+}
+
+function renderHome() {
+  if (!homeCurrentEventContent || !homeCurrentEventEmpty || !homeQuickAddForm) {
+    return;
+  }
+
+  const t = getCopy();
+  const currentEvent = getCurrentEvent();
+  const hasCurrentEvent = Boolean(currentEvent);
+  const overview = getOverviewMetrics();
+
+  homeCurrentEventContent.classList.toggle("hidden", !hasCurrentEvent);
+  homeCurrentEventEmpty.classList.toggle("hidden", hasCurrentEvent);
+
+  if (currentEvent) {
+    homeCurrentEventName.textContent = currentEvent.name;
+    homeCurrentEventTotal.textContent = formatCurrency(sumExpenses(currentEvent), currentEvent.currency);
+  }
+
+  Array.from(homeQuickAddForm.elements).forEach((field) => {
+    field.disabled = !hasCurrentEvent;
+  });
+
+  homeQuickAddStatus.textContent = hasCurrentEvent
+    ? t.currentEventLabel(currentEvent.name)
+    : t.quickAddLocked;
+  homeTotalSpent.textContent = formatCurrency(overview.totalSpent);
+  homeAverageSpent.textContent = formatCurrency(overview.averageSpent);
+  homeTopCategory.textContent = overview.totalSpent ? overview.topCategory.label : t.none;
+  homeEventCount.textContent = String(overview.recentEvents.length);
 }
 
 function renderEvents() {
@@ -1541,10 +1973,12 @@ function renderEvents() {
     button.innerHTML = `
       <div class="event-card-body">
         <div class="event-card-main">
-          <div>
-            <p class="mono-label event-card-type">${escapeHtml(translateCategory(event.type))}</p>
+          <div class="event-card-content">
             <h3 class="event-card-name">${escapeHtml(event.name)}</h3>
-            ${state.currentEventIds.includes(event.id) ? '<span class="status-chip">Current</span>' : ""}
+            <div class="event-card-meta-row">
+              <span class="event-card-kind">${escapeHtml(translateCategory(event.type))}</span>
+              ${state.currentEventId === event.id ? `<span class="status-chip">${escapeHtml(t.currentBadge)}</span>` : ""}
+            </div>
           </div>
           <strong class="event-card-total">${formatCurrency(spent, event.currency)}</strong>
         </div>
@@ -1553,7 +1987,6 @@ function renderEvents() {
             ? `
               <div class="budget-progress">
                 <div class="budget-progress-meta">
-                  <span>${escapeHtml(t.ofBudget(Math.round(progressPercent), formatCurrency(budget, event.currency)))}</span>
                   <span>${escapeHtml(isOverBudget ? t.overBudget : t.budgetInControl)}</span>
                 </div>
                 <div class="budget-progress-track">
@@ -1567,7 +2000,6 @@ function renderEvents() {
             : `
               <div class="budget-progress">
                 <div class="budget-progress-meta">
-                  <span>${escapeHtml(t.noBudgetSet)}</span>
                   <span>${escapeHtml(t.addOneInEvent)}</span>
                 </div>
                 <div class="budget-progress-track">
@@ -1611,9 +2043,9 @@ function renderDetail() {
     "danger-text",
     Boolean(selectedEvent.budget && sumExpenses(selectedEvent) > selectedEvent.budget)
   );
-  setCurrentEventButton.classList.toggle("is-current", state.currentEventIds.includes(selectedEvent.id));
+  setCurrentEventButton.classList.toggle("is-current", state.currentEventId === selectedEvent.id);
   setCurrentEventButton.textContent =
-    state.currentEventIds.includes(selectedEvent.id) ? t.currentEventActive : t.setAsCurrent;
+    state.currentEventId === selectedEvent.id ? t.currentEventActive : t.setAsCurrent;
 
   if (!selectedEvent.expenses.length) {
     expenseList.innerHTML = `<div class="empty-state">${escapeHtml(t.noExpenses)}</div>`;
@@ -1635,9 +2067,7 @@ function renderDetail() {
     .join("");
 }
 
-function renderDashboard() {
-  const t = getCopy();
-  const currentEvents = getCurrentEvents();
+function getOverviewMetrics() {
   const recentEvents = [...state.events]
     .sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0))
     .slice(0, 5);
@@ -1651,25 +2081,33 @@ function renderDashboard() {
   const topCategory = categories.reduce((top, item) => (item.amount > top.amount ? item : top), categories[0]);
   const averageSpent = recentEvents.length ? totalSpent / recentEvents.length : 0;
 
-  dashboardRangeLabel.textContent = t.lastEvents(recentEvents.length || 0);
-  document.querySelector("#dashboard-current-event-name").textContent = getCurrentEventSummary(currentEvents, t);
-  dashboardTotalSpent.textContent = formatCurrency(totalSpent);
-  dashboardAverageSpent.textContent = formatCurrency(averageSpent);
-  dashboardTopCategory.textContent = totalSpent ? topCategory.label : t.none;
-  dashboardEventCount.textContent = String(recentEvents.length);
+  return { recentEvents, categories, totalSpent, topCategory, averageSpent };
+}
 
-  if (!recentEvents.length || !totalSpent) {
+function renderDashboard() {
+  const t = getCopy();
+  const currentEvent = getCurrentEvent();
+  const overview = getOverviewMetrics();
+
+  dashboardRangeLabel.textContent = t.lastEvents(overview.recentEvents.length || 0);
+  document.querySelector("#dashboard-current-event-name").textContent = currentEvent ? currentEvent.name : t.none;
+  dashboardTotalSpent.textContent = formatCurrency(overview.totalSpent);
+  dashboardAverageSpent.textContent = formatCurrency(overview.averageSpent);
+  dashboardTopCategory.textContent = overview.totalSpent ? overview.topCategory.label : t.none;
+  dashboardEventCount.textContent = String(overview.recentEvents.length);
+
+  if (!overview.recentEvents.length || !overview.totalSpent) {
     dashboardChart.innerHTML = `<div class="empty-state">${escapeHtml(t.unlockDrama)}</div>`;
     dashboardInsightTitle.textContent = t.noDramaYet;
     dashboardInsightText.textContent = t.noDramaDashboard;
     return;
   }
 
-  const maxAmount = Math.max(...categories.map((item) => item.amount), 1);
-  dashboardChart.innerHTML = categories
+  const maxAmount = Math.max(...overview.categories.map((item) => item.amount), 1);
+  dashboardChart.innerHTML = overview.categories
     .map((item) => {
       const width = (item.amount / maxAmount) * 100;
-      const share = totalSpent ? Math.round((item.amount / totalSpent) * 100) : 0;
+      const share = overview.totalSpent ? Math.round((item.amount / overview.totalSpent) * 100) : 0;
       return `
         <div class="chart-row">
           <div class="chart-meta">
@@ -1684,8 +2122,13 @@ function renderDashboard() {
     })
     .join("");
 
-  dashboardInsightTitle.textContent = t.topCategoryOwns(topCategory.label, recentEvents.length);
-  dashboardInsightText.textContent = getSarcasticInsight(topCategory.key, recentEvents, totalSpent, topCategory.amount);
+  dashboardInsightTitle.textContent = t.topCategoryOwns(overview.topCategory.label, overview.recentEvents.length);
+  dashboardInsightText.textContent = getSarcasticInsight(
+    overview.topCategory.key,
+    overview.recentEvents,
+    overview.totalSpent,
+    overview.topCategory.amount
+  );
 }
 
 function getCategoryTotals(events) {
@@ -1717,33 +2160,16 @@ function getEventNameSeed(events) {
 }
 
 function getSelectedEvent() {
-  return state.events.find((event) => event.id === selectedEventId) ?? null;
-}
-
-function getCurrentEvents() {
-  return state.currentEventIds
-    .map((id) => state.events.find((event) => event.id === id) ?? null)
-    .filter(Boolean);
+  return (
+    state.events.find((event) => event.id === selectedEventId) ??
+    getCurrentEvent() ??
+    state.events[0] ??
+    null
+  );
 }
 
 function getCurrentEvent() {
-  return getCurrentEvents()[0] ?? null;
-}
-
-function getCurrentEventSummary(currentEvents, t) {
-  if (!currentEvents.length) {
-    return t.none;
-  }
-
-  if (currentEvents.length === 1) {
-    return currentEvents[0].name;
-  }
-
-  if (currentEvents.length === 2) {
-    return `${currentEvents[0].name} + ${currentEvents[1].name}`;
-  }
-
-  return `${currentEvents[0].name} +${currentEvents.length - 1}`;
+  return state.events.find((event) => event.id === state.currentEventId) ?? null;
 }
 
 function sumExpenses(event) {
@@ -1829,11 +2255,7 @@ function handleSetCurrentEvent() {
     return;
   }
 
-  if (state.currentEventIds.includes(selectedEvent.id)) {
-    state.currentEventIds = state.currentEventIds.filter((id) => id !== selectedEvent.id);
-  } else {
-    state.currentEventIds = [selectedEvent.id, ...state.currentEventIds];
-  }
+  state.currentEventId = selectedEvent.id;
   saveState();
   render();
 }
@@ -1848,68 +2270,78 @@ function handleOnboardingCurrencyChange(event) {
   render();
 }
 
-function handleOnboardingBack() {
-  onboardingStepIndex = Math.max(0, onboardingStepIndex - 1);
-  render();
-}
-
 function handleOnboardingNext() {
-  const steps = getOnboardingCopy().steps;
-
-  if (onboardingStepIndex >= steps.length - 1) {
-    completeOnboarding();
+  if (!currentAccent) {
     return;
   }
 
-  onboardingStepIndex += 1;
-  render();
+  completeOnboarding();
 }
 
 function completeOnboarding() {
+  if (!currentAccent) {
+    return;
+  }
+
   writeStorage(LOCALE_KEY, currentLocale);
   writeStorage(CURRENCY_KEY, currentCurrency);
   writeStorage(ACCENT_KEY, currentAccent);
+  writeStorage(ONBOARDING_ACCENT_KEY, "picked");
   writeStorage(ONBOARDING_KEY, "done");
   hasCompletedOnboarding = true;
-  onboardingStepIndex = 0;
+  hasPickedOnboardingAccent = true;
   showScreen("screen-landing");
+}
+
+function handleOnboardingAccentSelect(accentCode) {
+  if (!availableAccents.some((accent) => accent.code === accentCode)) {
+    return;
+  }
+
+  const isFirstSelection = !hasPickedOnboardingAccent && !currentAccent;
+  hasPickedOnboardingAccent = true;
+  writeStorage(ONBOARDING_ACCENT_KEY, "picked");
+  setAccent(accentCode);
+
+  if (isFirstSelection) {
+    triggerThemeAwakening();
+  }
 }
 
 function handleOpenVoiceExpense() {
   const selectedEvent = getSelectedEvent();
-  if (selectedEvent && !state.currentEventIds.includes(selectedEvent.id)) {
-    state.currentEventIds = [selectedEvent.id, ...state.currentEventIds];
+  if (selectedEvent && state.currentEventId !== selectedEvent.id) {
+    state.currentEventId = selectedEvent.id;
     saveState();
   }
-  showScreen("screen-add-expense");
+  openAddExpenseScreen("screen-event-detail");
 }
 
 function handleUseCurrentEvent() {
   const currentEvent = getCurrentEvent();
   if (!currentEvent) {
-    voiceFeedback.textContent = "Set a current event first.";
+    setVoiceFeedbackState("voiceNeedCurrentEvent");
     return;
   }
 
   selectedEventId = currentEvent.id;
-  voiceFeedback.textContent = `Using ${currentEvent.name} as current event.`;
+  setVoiceFeedbackState("voiceUsingCurrentEvent", currentEvent.name);
   render();
 }
 
 function renderVoicePanel() {
   const t = getCopy();
-  const currentEvents = getCurrentEvents();
-  voiceCurrentEventLabel.textContent = currentEvents.length
-    ? t.currentEventLabel(getCurrentEventSummary(currentEvents, t))
-    : t.currentEventNone;
+  const currentEvent = getCurrentEvent();
+  voiceCurrentEventLabel.textContent = currentEvent ? t.currentEventLabel(currentEvent.name) : t.currentEventNone;
   toggleVoiceButton.textContent = isListening ? t.stopVoice : t.startVoice;
+  renderVoiceFeedback();
 }
 
 function handleToggleVoice() {
   const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
   if (!Recognition) {
-    voiceFeedback.textContent = "Voice capture is not supported here. Paste the transcript manually.";
+    setVoiceFeedbackState("voiceNotSupported");
     return;
   }
 
@@ -1924,11 +2356,14 @@ function handleToggleVoice() {
         .join(" ")
         .trim();
       voiceTranscript.value = transcript;
-      voiceFeedback.textContent = "Voice note captured. Parse it when ready.";
+      setVoiceFeedbackState("voiceCaptured");
     };
 
     speechRecognition.onend = () => {
       isListening = false;
+      if (voiceFeedbackState.key === "voiceListening") {
+        voiceFeedbackState = { key: "voiceHelp", args: [] };
+      }
       renderVoicePanel();
     };
   }
@@ -1938,12 +2373,15 @@ function handleToggleVoice() {
   if (isListening) {
     speechRecognition.stop();
     isListening = false;
+    if (voiceFeedbackState.key === "voiceListening") {
+      voiceFeedbackState = { key: "voiceHelp", args: [] };
+    }
     renderVoicePanel();
     return;
   }
 
   isListening = true;
-  voiceFeedback.textContent = "Listening...";
+  setVoiceFeedbackState("voiceListening");
   renderVoicePanel();
   speechRecognition.start();
 }
@@ -1951,13 +2389,13 @@ function handleToggleVoice() {
 function handleParseVoice() {
   const currentEvent = getCurrentEvent();
   if (!currentEvent) {
-    voiceFeedback.textContent = "Choose a current event before adding voice expenses.";
+    setVoiceFeedbackState("voiceChooseCurrentEvent");
     return;
   }
 
   const transcript = voiceTranscript.value.trim();
   if (!transcript) {
-    voiceFeedback.textContent = "Say something first or paste a voice transcript.";
+    setVoiceFeedbackState("voiceEmptyTranscript");
     return;
   }
 
@@ -1967,9 +2405,16 @@ function handleParseVoice() {
   expenseForm.elements.amount.value = parsed.amount ? String(parsed.amount) : "";
   expenseForm.elements.category.value = parsed.category;
 
-  voiceFeedback.textContent = parsed.amount
-    ? `Ready to save in ${translateCategory(parsed.category)} for ${formatCurrency(parsed.amount, currentEvent.currency)}.`
-    : "I detected the expense. Add the amount if I missed it.";
+  if (parsed.amount) {
+    setVoiceFeedbackState(
+      "voiceParsedSuccess",
+      translateCategory(parsed.category),
+      formatCurrency(parsed.amount, currentEvent.currency)
+    );
+    return;
+  }
+
+  setVoiceFeedbackState("voiceParsedMissingAmount");
 }
 
 function readStorage(key) {
@@ -1988,13 +2433,64 @@ function writeStorage(key, value) {
   }
 }
 
+function resolveCopyValue(copy, key, args = []) {
+  const fallback = resolvedTranslations.en?.[key];
+  const value = copy?.[key] ?? fallback ?? "";
+
+  if (typeof value === "function") {
+    return value(...args);
+  }
+
+  return value;
+}
+
+function setVoiceFeedbackState(key, ...args) {
+  voiceFeedbackState = { key, args };
+  renderVoiceFeedback();
+}
+
+function renderVoiceFeedback() {
+  voiceFeedback.textContent = resolveCopyValue(getCopy(), voiceFeedbackState.key, voiceFeedbackState.args);
+}
+
+function setQuoteSuggestionFeedbackState(key, ...args) {
+  quoteSuggestionFeedbackState = { key, args };
+  renderQuoteSuggestionFeedback();
+}
+
+function clearQuoteSuggestionFeedback() {
+  quoteSuggestionFeedbackState = { key: "", args: [] };
+  quoteSuggestionFeedback.textContent = "";
+}
+
+function renderQuoteSuggestionFeedback() {
+  if (!quoteSuggestionFeedbackState.key) {
+    quoteSuggestionFeedback.textContent = "";
+    return;
+  }
+
+  quoteSuggestionFeedback.textContent = resolveCopyValue(
+    getCopy(),
+    quoteSuggestionFeedbackState.key,
+    quoteSuggestionFeedbackState.args
+  );
+}
+
 function setLandingQuote() {
+  if (!landingQuote) {
+    return;
+  }
+
   const nextIndex = pickNextQuoteIndex();
   currentQuoteIndex = nextIndex;
   renderQuoteText(getQuotes()[nextIndex]);
 }
 
 function rotateLandingQuote() {
+  if (!landingQuote) {
+    return;
+  }
+
   const nextIndex = pickNextQuoteIndex();
   currentQuoteIndex = nextIndex;
   typeLandingQuote(getQuotes()[nextIndex]);
@@ -2015,6 +2511,10 @@ function pickNextQuoteIndex() {
 }
 
 function typeLandingQuote(text) {
+  if (!landingQuote) {
+    return;
+  }
+
   if (quoteTypingFrame) {
     cancelAnimationFrame(quoteTypingFrame);
   }
@@ -2048,6 +2548,10 @@ function typeLandingQuote(text) {
 }
 
 function renderQuoteText(text) {
+  if (!landingQuote) {
+    return;
+  }
+
   if (!text) {
     landingQuote.innerHTML = "";
     return;
@@ -2078,22 +2582,40 @@ function renderTranslations() {
     label.textContent = t.appName;
   });
 
-  startButton.textContent = t.landingCtaCreate;
-  goEventsButton.textContent = t.landingCtaEvents;
-  goDashboardButton.textContent = t.landingCtaDashboard;
-  document.querySelector("#landing-footer").textContent = t.landingFooter;
+  if (homeCreateEventButton) {
+    homeCreateEventButton.textContent = t.createEventLabel;
+  }
+  if (homeChangeEventButton) {
+    homeChangeEventButton.textContent = t.changeAction;
+  }
+  if (goEventsButton) {
+    goEventsButton.textContent = t.navEvents;
+  }
+  if (goDashboardButton) {
+    goDashboardButton.textContent = t.navDashboard;
+  }
   goDashboardFromEventsButton.textContent = t.navDashboard;
   if (goCreateButton) {
     goCreateButton.textContent = "+";
     goCreateButton.setAttribute("aria-label", t.createEventLabel);
   }
   dashboardEventsButton.textContent = t.navEvents;
+  document.querySelector("#screen-settings h2").textContent = t.titleSettings;
+  settingsSectionLabel.textContent = t.settingsSection;
+  settingsLanguageLabel.textContent = t.navLanguage;
+  settingsCurrencyLabel.textContent = t.navCurrency;
+  settingsLanguageHelper.textContent = t.settingsLanguageHelper;
+  settingsCurrencyHelper.textContent = t.settingsCurrencyHelper;
   languageSelect.setAttribute("aria-label", t.navLanguage);
   currencySelect.setAttribute("aria-label", t.navCurrency);
   languageSelect.parentElement?.setAttribute("aria-label", t.navLanguage);
   currencySelect.parentElement?.setAttribute("aria-label", t.navCurrency);
   languageSelect.value = currentLocale;
   currencySelect.value = currentCurrency;
+  bottomNavHomeButton?.querySelector(".bottom-nav-label")?.replaceChildren(t.navHome);
+  bottomNavEventsButton?.querySelector(".bottom-nav-label")?.replaceChildren(t.navEvents);
+  bottomNavAddButton?.querySelector(".bottom-nav-label")?.replaceChildren(t.navAdd);
+  bottomNavSettingsButton?.querySelector(".bottom-nav-label")?.replaceChildren(t.navSettings);
   updateStateIcons();
 
   for (const button of backButtons) {
@@ -2105,6 +2627,20 @@ function renderTranslations() {
   document.querySelector("#screen-create-event h2").textContent = t.titleCreate;
   document.querySelector("#screen-event-detail h2").textContent = t.titleEvent;
   document.querySelector("#screen-add-expense h2").textContent = t.titleAddExpense;
+
+  document.querySelector("#home-current-event-label").textContent = t.currentEvent;
+  document.querySelector("#home-empty-label").textContent = t.currentEvent;
+  document.querySelector("#home-empty-title").textContent = t.noCurrentEvent;
+  document.querySelector("#home-empty-text").textContent = t.noCurrentEventBody;
+  document.querySelector("#home-current-total-label").textContent = t.totalSpent;
+  document.querySelector("#home-quick-add-label").textContent = t.quickAddLabel;
+  document.querySelector("#home-quick-add-helper").textContent = t.quickAddHelper;
+  document.querySelector("#home-secondary-label").textContent = t.overview;
+  document.querySelector("#home-secondary-helper").textContent = t.overviewHelper;
+  setText(".home-dashboard-grid .summary-card span", 0, t.totalSpent);
+  setText(".home-dashboard-grid .summary-card span", 1, t.averageEvent);
+  setText(".home-dashboard-grid .summary-card span", 2, t.biggestCategory);
+  setText(".home-dashboard-grid .summary-card span", 3, t.trackedEvents);
 
   setText("#screen-events .section-row .mono-label", 0, t.savedEvents);
   createEventSubmitButton.textContent = t.createEventLabel;
@@ -2119,10 +2655,10 @@ function renderTranslations() {
   setText("#screen-dashboard .section-row .mono-label", 2, t.awareAnalysis);
   setText("#screen-dashboard .section-row .subtle-text", 0, t.lastEvents(5));
   setText("#screen-dashboard .section-row .subtle-text", 1, t.lastEvents(5));
-  setText(".dashboard-grid .summary-card span", 0, t.totalSpent);
-  setText(".dashboard-grid .summary-card span", 1, t.averageEvent);
-  setText(".dashboard-grid .summary-card span", 2, t.biggestCategory);
-  setText(".dashboard-grid .summary-card span", 3, t.trackedEvents);
+  setText("#screen-dashboard .dashboard-grid .summary-card span", 0, t.totalSpent);
+  setText("#screen-dashboard .dashboard-grid .summary-card span", 1, t.averageEvent);
+  setText("#screen-dashboard .dashboard-grid .summary-card span", 2, t.biggestCategory);
+  setText("#screen-dashboard .dashboard-grid .summary-card span", 3, t.trackedEvents);
   setText(".current-event-banner .mono-label", 0, t.currentEvent);
 
   setCurrentEventButton.textContent = t.setAsCurrent;
@@ -2136,6 +2672,7 @@ function renderTranslations() {
   document.querySelector("#quote-suggestion-submit").textContent = t.quoteSuggestionSubmit;
   document.querySelector("#quote-suggestion-close").textContent = t.quoteSuggestionClose;
   quoteSuggestionInput.placeholder = t.quoteSuggestionPlaceholder;
+  renderQuoteSuggestionFeedback();
 
   updateFormTranslations(t);
 }
@@ -2161,34 +2698,51 @@ function updateFormTranslations(t) {
   expenseForm.elements.title.placeholder = t.fieldNotePlaceholder;
   saveExpenseSubmitButton.textContent = t.saveExpense;
 
+  const homeExpenseLabels = document.querySelectorAll("#home-quick-add-form label span");
+  if (homeExpenseLabels[0]) {
+    homeExpenseLabels[0].textContent = t.expenseName;
+  }
+  if (homeExpenseLabels[1]) {
+    homeExpenseLabels[1].textContent = t.fieldAmount;
+  }
+  if (homeExpenseLabels[2]) {
+    homeExpenseLabels[2].textContent = t.fieldExpenseType;
+  }
+  if (homeQuickAddForm) {
+    homeQuickAddForm.elements.title.placeholder = t.fieldNotePlaceholder;
+    homeQuickAddForm.elements.amount.placeholder = t.fieldAmountPlaceholder;
+  }
+  document.querySelector("#home-quick-add-submit").textContent = t.saveExpense;
+
   const voiceLabels = document.querySelectorAll(".voice-panel label span");
   if (voiceLabels[0]) {
     voiceLabels[0].textContent = t.transcript;
   }
   voiceTranscript.placeholder = t.transcriptPlaceholder;
-  voiceFeedback.textContent = voiceFeedback.textContent.includes("Listening")
-    ? voiceFeedback.textContent
-    : t.voiceHelp;
+  renderVoiceFeedback();
 
   updateSelectOptions(eventForm.elements.type, ["travel", "party", "event", "activity", "casual", "other"]);
   updateSelectOptions(expenseForm.elements.category, ["food", "travel", "other"]);
+  if (homeQuickAddForm) {
+    updateSelectOptions(homeQuickAddForm.elements.category, ["", "food", "travel", "other"]);
+  }
 }
 
 function updateSelectOptions(select, keys) {
   keys.forEach((key, index) => {
     const option = select.options[index];
     if (option) {
-      option.textContent = translateCategory(key);
+      option.textContent = key ? translateCategory(key) : getCopy().noCategory;
     }
   });
 }
 
 function getCopy() {
-  return translations[currentLocale] ?? translations.en;
+  return resolvedTranslations[currentLocale] ?? resolvedTranslations.en;
 }
 
 function getOnboardingCopy() {
-  return onboardingTranslations[currentLocale] ?? onboardingTranslations.en;
+  return resolvedOnboardingTranslations[currentLocale] ?? resolvedOnboardingTranslations.en;
 }
 
 function getQuotes() {
@@ -2201,8 +2755,8 @@ function translateCategory(key) {
 }
 
 function translateAccent(key) {
-  const localeAccents = accentTranslations[currentLocale] ?? accentTranslations.en;
-  return localeAccents[key] ?? accentTranslations.en[key] ?? capitalize(key);
+  const localeAccents = resolvedAccentTranslations[currentLocale] ?? resolvedAccentTranslations.en;
+  return localeAccents[key] ?? resolvedAccentTranslations.en[key] ?? capitalize(key);
 }
 
 function setText(selector, index, text) {
@@ -2218,10 +2772,30 @@ function updateStateIcons() {
 
   languageStateIcon.textContent = locale?.icon ?? "EN";
   currencyStateIcon.textContent = currency?.icon ?? "$";
+  if (languageStateText) {
+    languageStateText.textContent = locale?.label ?? "English";
+  }
+  if (currencyStateText) {
+    currencyStateText.textContent = currency?.label ?? "USD US$";
+  }
 }
 
 function getRecognitionLocale() {
   return recognitionLocales[currentLocale] ?? recognitionLocales.en;
+}
+
+function triggerThemeAwakening() {
+  document.body.classList.remove("theme-awakening");
+
+  if (awakeningTimeout) {
+    window.clearTimeout(awakeningTimeout);
+  }
+
+  void document.body.offsetWidth;
+  document.body.classList.add("theme-awakening");
+  awakeningTimeout = window.setTimeout(() => {
+    document.body.classList.remove("theme-awakening");
+  }, 980);
 }
 
 function parseExpenseFromTranscript(transcript) {
@@ -2338,9 +2912,13 @@ function inferExpenseTitle(text, amount) {
 }
 
 function applyAccentTheme() {
-  const accent = availableAccents.find((item) => item.code === currentAccent) ?? availableAccents[3];
+  const accent = availableAccents.find((item) => item.code === currentAccent) ?? {
+    hex: "#87909a",
+    rgb: "135, 144, 154"
+  };
   document.documentElement.style.setProperty("--signal", accent.hex);
   document.documentElement.style.setProperty("--signal-rgb", accent.rgb);
+  document.body.classList.toggle("theme-neutral", !hasCompletedOnboarding && !currentAccent);
 }
 
 function cycleAccentTheme() {

@@ -35,3 +35,19 @@ Current easter eggs:
 - In the dashboard, tapping the `Analysis` insight opens the hidden quote suggestion flow.
 
 Some parts of AWARE. are meant to be discovered, not announced.
+
+## Development
+
+This project now runs with Vite for local development and fast live reload.
+
+```bash
+npm install
+npm run dev
+```
+
+For a production build:
+
+```bash
+npm run build
+npm run preview
+```

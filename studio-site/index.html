@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Sitio base para un estudio pequeño que diseña, construye y documenta productos digitales."
+    />
+    <title>Studio in Progress</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600;700&family=Syne:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="ambient ambient-left" aria-hidden="true"></div>
+      <div class="ambient ambient-right" aria-hidden="true"></div>
+
+      <header class="site-header">
+        <a class="brand" href="#top" aria-label="Home">
+          <span class="brand-mark"></span>
+          <span class="brand-text">
+            <strong>Studio Name</strong>
+            <small>name pending</small>
+          </span>
+        </a>
+
+        <nav class="site-nav" aria-label="Primary">
+          <a href="#work">Work</a>
+          <a href="#journal">Journal</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
+
+      <main id="top">
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">TWO PEOPLE. ONE STUDIO. DIGITAL THINGS WITH CHARACTER.</p>
+            <h1>Diseñamos y construimos webs y apps con una identidad que se pueda recordar.</h1>
+            <p class="hero-text">
+              Este es el punto de partida de vuestro studio: una casa para mostrar proyectos, escribir sobre el
+              proceso y dejar claro qué tipo de trabajo queréis hacer.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-solid" href="#work">Ver estructura</a>
+              <a class="button button-ghost" href="#journal">Pensar el journal</a>
+            </div>
+          </div>
+
+          <aside class="hero-panel">
+            <p class="panel-label">Starter shape</p>
+            <ul class="panel-list">
+              <li>Landing del studio con tono propio</li>
+              <li>Sección Work para casos de estudio</li>
+              <li>Journal para build logs, notes y case studies</li>
+              <li>Bloque About + Contact para cerrar la narrativa</li>
+            </ul>
+            <div class="panel-divider"></div>
+            <p class="panel-note">
+              El nombre y el sistema visual todavía pueden cambiar. Lo importante es empezar con una base viva.
+            </p>
+          </aside>
+        </section>
+
+        <section class="strip">
+          <p>Studio website</p>
+          <p>Work showcase</p>
+          <p>Journal / Notes / Build logs</p>
+          <p>Small team, sharp point of view</p>
+        </section>
+
+        <section class="section" id="work">
+          <div class="section-heading">
+            <p class="eyebrow">WORK</p>
+            <h2>Una estructura simple para enseñar proyectos con contexto, no solo pantallas.</h2>
+          </div>
+
+          <div class="project-grid">
+            <article class="project-card project-card-featured">
+              <div class="project-meta">
+                <span>Current build</span>
+                <span>App / PWA</span>
+              </div>
+              <h3>aware</h3>
+              <p>
+                La primera pieza del estudio. Una app mobile-first para controlar gastos de planes, viajes y eventos
+                sin convertirlo en una herramienta pesada.
+              </p>
+              <a href="#" aria-disabled="true">Case study soon</a>
+            </article>
+
+            <article class="project-card">
+              <div class="project-meta">
+                <span>Placeholder</span>
+                <span>Web</span>
+              </div>
+              <h3>Next client story</h3>
+              <p>
+                Aquí puede vivir un futuro proyecto de branding, web o producto con su reto, solución y resultado.
+              </p>
+            </article>
+
+            <article class="project-card">
+              <div class="project-meta">
+                <span>Internal</span>
+                <span>Experiment</span>
+              </div>
+              <h3>Lab concept</h3>
+              <p>
+                Espacio para ideas rápidas, conceptos visuales y prototipos que ayuden a mostrar vuestro criterio.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="journal">
+          <div class="section-heading section-heading-wide">
+            <div>
+              <p class="eyebrow">JOURNAL</p>
+              <h2>Un blog que documenta decisiones, aprendizajes y procesos reales.</h2>
+            </div>
+
+            <div class="filter-row" role="tablist" aria-label="Journal filters">
+              <button class="filter-chip is-active" type="button" data-filter="all">All</button>
+              <button class="filter-chip" type="button" data-filter="build-log">Build Logs</button>
+              <button class="filter-chip" type="button" data-filter="note">Notes</button>
+              <button class="filter-chip" type="button" data-filter="case-study">Case Studies</button>
+            </div>
+          </div>
+
+          <div class="journal-grid">
+            <article class="journal-card" data-kind="build-log">
+              <span class="journal-tag">Build Log</span>
+              <h3>Cómo nació aware y qué queríamos evitar desde el día uno</h3>
+              <p>Un post ideal para explicar la intención del producto y las decisiones que definieron su primera forma.</p>
+            </article>
+
+            <article class="journal-card" data-kind="note">
+              <span class="journal-tag">Note</span>
+              <h3>Por qué un estudio pequeño puede hacer productos con más personalidad</h3>
+              <p>Una nota corta sobre identidad, foco y por qué no queréis sonar como una agencia genérica.</p>
+            </article>
+
+            <article class="journal-card" data-kind="case-study">
+              <span class="journal-tag">Case Study</span>
+              <h3>Diseñar una pantalla mobile-first que no parezca plantilla</h3>
+              <p>Espacio para descomponer decisiones visuales, jerarquía, tono y detalles de interacción.</p>
+            </article>
+
+            <article class="journal-card" data-kind="note">
+              <span class="journal-tag">Note</span>
+              <h3>3 cosas pequeñas que hacen que una interfaz se sienta mejor</h3>
+              <p>Un formato fácil para publicar sin esperar a tener un gran artículo terminado.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section split-section" id="about">
+          <div class="section-heading">
+            <p class="eyebrow">ABOUT</p>
+            <h2>La web del studio también tiene que contar vuestra forma de trabajar.</h2>
+          </div>
+
+          <div class="about-grid">
+            <article class="about-card">
+              <p class="about-label">What this can say</p>
+              <p>
+                Somos un studio pequeño enfocado en productos digitales, identidad visual y experiencias web que no
+                se sienten intercambiables.
+              </p>
+            </article>
+
+            <article class="about-card">
+              <p class="about-label">What this can show</p>
+              <p>
+                Cómo combináis diseño, desarrollo y criterio editorial para construir trabajos que se entienden rápido
+                y dejan huella.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section contact-section" id="contact">
+          <div class="contact-card">
+            <p class="eyebrow">CONTACT</p>
+            <h2>Cuando tengáis nombre, email y primeros proyectos, este bloque ya puede cerrar la web.</h2>
+            <p>
+              De momento queda como placeholder para que el proyecto tenga forma completa desde el principio.
+            </p>
+            <a class="contact-link" href="mailto:hello@yourstudio.dev">hello@yourstudio.dev</a>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <p><span id="current-year"></span> Studio Name</p>
+        <p>Built as a separate starting point from aware.</p>
+      </footer>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
